@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Xunit
 
 namespace IntegrationTests
 {
-    internal class CreateFlureeCollectionTest
+    public class CreateFlureeCollectionTest : FlureeFixture
     {
+        public CreateFlureeCollectionTest(IHttpClientFactory fixture) : base(fixture) { }
+
+        [Fact]
+        public async Task CreateFlureeCollection()
+        {
+            //Assemble 
+
+            //Act
+            var result = await _client.PostAsync("/dbs", null); 
+
+            //Assert
+        }
     }
 }

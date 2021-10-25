@@ -1,21 +1,43 @@
 using Xunit;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace IntegrationTests
 {
-    public class FlureeFixture : IClassFixture<WebApplicationFactory<Api.Startup>>
+    public class FlureeFixture : IClassFixture<WebApplicationFactory<IHttpClientFactory>>
     {
-        public string ApiBaseUrl { get; set; } = Config.BASE_URL;
-        public HttpClient _flureeClient;
+        protected readonly HttpClient _client;
+        private readonly IConfiguration _configuration;
+        private readonly IServiceCollection _services;
 
-        public FlureeFixture()
+        public FlureeFixture(IHttpClientFactory fixture)
         {
-            _flureeClient = new HttpClient();
+;            _client = fixture.CreateClient();
+            _configuration = Configuration();
+            _services = AddServices(); 
         }
-        public void Test1()
-        {
 
+        public static IConfiguration Configuration()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .Build();
+            return config;
+        }
+
+        public static IServiceCollection AddServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddHttpClient("fluree", c =>
+            {
+                c.BaseAddress = new Uri("http://localhost:8090/");
+            });
+
+            return services;
         }
     }
 }
