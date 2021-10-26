@@ -5,16 +5,16 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    public class CreateFlureeCollectionTest
+    public class FlureeDbCommunicationTests
     {
         private readonly IHttpClientFactory _flureeClient;
-        public CreateFlureeCollectionTest(IHttpClientFactory factory)
+        public FlureeDbCommunicationTests(IHttpClientFactory factory)
         {
             _flureeClient = factory; 
         }
 
         [Fact]
-        public async Task CreateFlureeCollection()
+        public async Task GetAllDataBasesFromFlureeTest()
         {
             //Arrange
             var flureeRequest = _flureeClient.CreateClient("fluree"); 
