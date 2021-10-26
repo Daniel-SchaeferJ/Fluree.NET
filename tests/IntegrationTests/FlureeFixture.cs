@@ -1,23 +1,23 @@
-using Xunit;
 using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Xunit;
+using System.Threading.Tasks;
 
 namespace IntegrationTests
 {
-    public class FlureeFixture : IClassFixture<WebApplicationFactory<IHttpClientFactory>>
+    public class FlureeFixture
     {
-        protected readonly HttpClient _client;
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
         private readonly IServiceCollection _services;
+        private readonly HttpClient _httpClient;
 
-        public FlureeFixture(IHttpClientFactory fixture)
+        public FlureeFixture()
         {
-;            _client = fixture.CreateClient();
-            _configuration = Configuration();
-            _services = AddServices(); 
+            //_configuration = Configuration();
+            _services = AddServices();
+            _httpClient = new HttpClient();
         }
 
         public static IConfiguration Configuration()
@@ -31,6 +31,7 @@ namespace IntegrationTests
         public static IServiceCollection AddServices()
         {
             var services = new ServiceCollection();
+            services.AddScoped<HttpClient>();
 
             services.AddHttpClient("fluree", c =>
             {
@@ -38,6 +39,23 @@ namespace IntegrationTests
             });
 
             return services;
+        }
+
+        [Fact]
+        public async Task CreateFlureeCollection()
+        {
+            //Arrange
+            Uri yeet = new Uri("http://localhost:8090/dbs");
+
+
+            //Act
+            var result = await _httpClient.GetAsync(yeet);
+
+            Console.WriteLine(result.Content);
+
+            //Assert
+            Assert.Equal("OK", result.ReasonPhrase);
+            _httpClient.Dispose(); 
         }
     }
 }
