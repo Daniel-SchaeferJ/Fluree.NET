@@ -3,6 +3,7 @@ using Flurl.Http.Configuration;
 using System.Threading.Tasks;
 using Xunit;
 using System.Net;
+using System.Net.Http;
 
 namespace IntegrationTests
 {
@@ -27,12 +28,12 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task CreateNewFlureeDatabase()
+        public async Task CanCreateANewDatabase()
         {
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync( new
+            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync( new TestData
             {
                db = "test",
                id = "one"
@@ -55,18 +56,23 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task CreateNewServer()
+        public async Task CanCreateAServer()
         {
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new
-            {
-                server = "GHI"
-            });
+            var result = await _flurlClient.Request("/fdb/add-server").PostAsync();
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
         }
+
+        private class TestData
+        {
+            public string db { get; set; }
+            public string id { get; set; }
+        }
     }
+
+
 }
