@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Flurl.Http.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace IntegrationTests
             {
                 c.BaseAddress = new Uri("http://localhost:8090/");
             });
+
+            services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
         }
     }
 }
