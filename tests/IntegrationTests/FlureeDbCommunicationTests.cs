@@ -1,7 +1,5 @@
 ﻿using Flurl.Http;
 using Flurl.Http.Configuration;
-using Flurl; 
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using System.Net;
@@ -28,17 +26,47 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
         }
 
-        //[Fact]
-        //public async Task CreateNewFlureeDatabase()
-        //{
-        //    //Arrange
-        //    var flureeRequest = _flureeClient.CreateClient("fluree");
+        [Fact]
+        public async Task CreateNewFlureeDatabase()
+        {
+            //Arrange
 
-        //    //Act
-        //    var result = await flureeRequest.GetAsync("/dbs");
+            //Act
+            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync( new
+            {
+               db = "test",
+               id = "one"
+            });
 
-        //    //Assert
-        //    Assert.Equal("OK", result.ReasonPhrase);
-        //}
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
+
+        [Fact]
+        public async Task SeeFlureeState()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flurlClient.Request("/fdb/nw-state").PostAsync(); 
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
+
+        [Fact]
+        public async Task CreateNewServer()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new
+            {
+                server = "GHI"
+            });
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
     }
 }
