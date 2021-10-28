@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Net;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace IntegrationTests
 {
@@ -33,10 +34,9 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync( new TestData
+            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new TestData
             {
-               db = "test",
-               id = "one"
+                Database = "test/one"
             });
 
             //Assert
@@ -49,7 +49,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/nw-state").PostAsync(); 
+            var result = await _flurlClient.Request("/fdb/nw-state").PostAsync();
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
@@ -61,7 +61,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/add-server").PostAsync();
+            var result = await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new TestData
+            {
+                ServerName = "GHI"
+            });
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
@@ -69,8 +72,10 @@ namespace IntegrationTests
 
         private class TestData
         {
-            public string db { get; set; }
-            public string id { get; set; }
+            [JsonProperty("db/id")]
+            public string Database { get; set; }
+            [JsonProperty("server")]
+            public string ServerName { get; set; }
         }
     }
 
