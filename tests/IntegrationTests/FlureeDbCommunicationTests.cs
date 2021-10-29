@@ -13,10 +13,35 @@ namespace IntegrationTests
         private readonly IFlurlClient _flurlClient;
         public FlureeDbCommunicationTests(IFlurlClientFactory factory)
         {
-            _flurlClient = factory.Get("fluree");
+            _flurlClient = factory.Get("http://localhost:8090/");
         }
 
+        [Fact]
+        public async Task GetAllDataBasesFromFlureeTest()
+        {
+            //Arrange
 
+            //Act
+            var result = await _flurlClient.Request("/dbs").GetAsync();
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
+
+        [Fact]
+        public async Task CanCreateANewDatabase()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new TestData
+            {
+                Database = "test/one"
+            });
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
 
         [Fact]
         public async Task SeeFlureeState()
@@ -36,7 +61,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new BodyData
+            var result = await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new TestData
             {
                 ServerName = "GHI"
             });
@@ -45,33 +70,12 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
         }
 
-        [Fact]
-        public async Task CanDeleteAServer()
-        {
-            //Arrange
-
-            //Act
-            var result = await _flurlClient.Request("/fdb/remove-server").PostJsonAsync(new BodyData
-            {
-                ServerName = "GHI"
-            });
-
-            //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
-        }
-
-
-        private class BodyData
+        private class TestData
         {
             [JsonProperty("db/id")]
-            public string? Database { get; set; }
+            public string Database { get; set; }
             [JsonProperty("server")]
-            public string? ServerName { get; set; }
-        }
-
-        private class HeaderData
-        {
-
+            public string ServerName { get; set; }
         }
     }
 
