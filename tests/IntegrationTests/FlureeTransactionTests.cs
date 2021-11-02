@@ -66,6 +66,35 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
         }
 
+        [Fact]
+        public async Task CanAddSampleData()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flurlClient.Request("/fdb/reporting/yearly/transact").PostJsonAsync(new List<AddTransactionData>()
+            {
+                new AddTransactionData
+                {
+                    CollectionId = "TopSellingProduct",
+                    Quantity = 5,
+                    Sku = "The first F13 Product!"
+
+                },
+                new AddTransactionData
+                {
+                    CollectionId = "TopSellingProduct",
+                    Quantity = 15,
+                    Sku = "The second F13 Product!"
+
+                }
+
+            });
+
+
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+        }
         private class AddCollectionJsonBody
         {
             [JsonProperty("_id")]
@@ -88,6 +117,17 @@ namespace IntegrationTests
             public string? PredicateDescription { get; set; }
             [JsonProperty("type")]
             public string? ValueType { get; set; }
+        }
+
+        private class AddTransactionData
+        {
+            [JsonProperty("_id")]
+            public string? CollectionId { get; set; }
+            [JsonProperty("quantity")]
+            public int? Quantity { get; set; }
+            [JsonProperty("sku")]
+            public string? Sku { get; set; }
+
         }
     }
 }
