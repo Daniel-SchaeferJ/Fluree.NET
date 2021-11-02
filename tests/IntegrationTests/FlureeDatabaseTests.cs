@@ -11,10 +11,11 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    public class DatabaseTestBehavior
+    [Trait("Category", "Database")]
+    public class FlureeDatabaseTests
     {
         private readonly IFlurlClient _flurlClient;
-        public DatabaseTestBehavior(IFlurlClientFactory factory)
+        public FlureeDatabaseTests(IFlurlClientFactory factory)
         {
             _flurlClient = factory.Get("http://localhost:8090");
         }
@@ -40,7 +41,7 @@ namespace IntegrationTests
             //Act
             var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseJsonObjectBody
             {
-                Database = "test/one"
+                Database = "reporting/yearly"
             });
 
             //Assert

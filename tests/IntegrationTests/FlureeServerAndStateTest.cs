@@ -8,10 +8,11 @@ using Newtonsoft.Json;
 
 namespace IntegrationTests
 {
-    public class FlureeDbCommunicationTests
+    [Trait("Category", "Server")]
+    public class FlureeServerAndStateTest
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeDbCommunicationTests(IFlurlClientFactory factory)
+        public FlureeServerAndStateTest(IFlurlClientFactory factory)
         {
             _flurlClient = factory.Get("http://localhost:8090");
         }
