@@ -34,11 +34,11 @@ namespace IntegrationTests
                             "*"
                         },
                 SqlFrom = "TopSellingProduct"
-            });
+            }).ReceiveJsonList();
 
-            //await result.GetJsonAsync();
+           
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.NotEmpty(result);
         }
 
         private class JsonSqlQuery

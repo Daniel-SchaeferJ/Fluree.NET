@@ -22,13 +22,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/new-keys").PostAsync();
-
-            var keys = await result.GetJsonAsync<AutneticationData>(); 
+            var result = await _flurlClient.Request("/fdb/new-keys").PostAsync().ReceiveJson<AutneticationData>();
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
-            Assert.NotNull(keys);
+            Assert.NotNull(result.AccountId);
 
         }
 
