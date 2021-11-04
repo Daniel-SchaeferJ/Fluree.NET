@@ -6,14 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FlureeCommand\" />
     <Folder Include="FlureeAuthentication\" />
+    <Folder Include="FlureeCommand\Model\" />
+    <Folder Include="FlureeQuery\Model\" />
     <Folder Include="FlureeServer\" />
-    <Folder Include="FlureeQuery\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0-rc.2.21480.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
