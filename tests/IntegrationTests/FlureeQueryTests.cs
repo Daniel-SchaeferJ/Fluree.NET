@@ -1,6 +1,9 @@
-﻿using Flurl.Http;
+﻿using FlureeDotnetLibrary.FlureeQuery;
+using FlureeDotnetLibrary.FlureeQuery.Model;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
+using Moq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,27 +14,30 @@ namespace IntegrationTests
     [Trait("Category", "Query")]
     public class FlureeQueryTests
     {
-        private readonly IFlurlClient _flurlClient;
-        public FlureeQueryTests(IFlurlClientFactory factory, IConfiguration configuration)
+        private readonly IExecuteFlureeQuery _executeFlureeQuery;
+        public FlureeQueryTests(IConfiguration configuration, IExecuteFlureeQuery executeFlureeQuery)
         {
-            _flurlClient = factory.Get(configuration["fluree"]);
+            _executeFlureeQuery = executeFlureeQuery;
         }
 
         [Fact]
         public async Task CanQueryData()
         {
             //Arrange
+
             //Act
-            var result = await _flurlClient.Request("/fdb/reporting/yearly/query").PostJsonAsync(new JsonSqlQuery
+            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery<dynamic>(new QueryBuilder
             {
                 SqlSelect = new List<string>()
                         {
                             "*"
                         },
                 SqlFrom = "TopSellingProduct"
-            }).ReceiveJsonList();
+            }
+            ,"reporting", "yearly"); 
 
-           
+
+
             //Assert
             Assert.NotEmpty(result);
         }
@@ -43,8 +49,8 @@ namespace IntegrationTests
             [JsonProperty("from")]
             public string? SqlFrom { get; set; }
             
-            //[JsonProperty("where")]
-            //public string? SqlWhere { get; set; }
+            [JsonProperty("where")]
+            public string? SqlWhere { get; set; }
 
         }
     }

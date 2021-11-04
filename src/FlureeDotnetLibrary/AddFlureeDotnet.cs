@@ -1,21 +1,21 @@
 ﻿using Flurl.Http.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 
 namespace FlureeDotnetLibrary
 {
     public static  class AddFlureeDotnet
     {
-        public static IServiceCollection AddFlureeDotnetService(this IServiceCollection services)
+        public static void AddFlureeDotnetService(this IServiceCollection services)
         {
-            services.AddHttpClient("fluree", c =>
-            {
-                c.BaseAddress = new Uri("http://localhost:8090/");
-            });
-
+              IConfiguration configuration = new ConfigurationBuilder()
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+              .Build();
+            services.AddSingleton(configuration);
             services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
-
-            return services; 
         }
     }
 }

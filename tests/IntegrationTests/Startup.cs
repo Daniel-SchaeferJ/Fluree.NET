@@ -1,4 +1,5 @@
-﻿using Flurl.Http.Configuration;
+﻿using FlureeDotnetLibrary.FlureeQuery;
+using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace IntegrationTests
               .Build();
             services.AddSingleton(configuration);
             services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
+            services.AddTransient<IExecuteFlureeQuery, FLureeQuery>(); 
         }
     }
 }
