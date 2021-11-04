@@ -1,11 +1,8 @@
 ﻿using Flurl.Http;
 using Flurl.Http.Configuration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,9 +12,9 @@ namespace IntegrationTests
     public class FlureeDatabaseTests
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeDatabaseTests(IFlurlClientFactory factory)
+        public FlureeDatabaseTests(IFlurlClientFactory factory, IConfiguration configuration)
         {
-            _flurlClient = factory.Get("http://localhost:8090");
+            _flurlClient = factory.Get(configuration["fluree"]);
         }
 
         [Fact]

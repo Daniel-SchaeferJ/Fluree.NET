@@ -1,5 +1,6 @@
 ﻿using Flurl.Http;
 using Flurl.Http.Configuration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace IntegrationTests
     public class FlureeCommandTests
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeCommandTests(IFlurlClientFactory factory)
+        public FlureeCommandTests(IFlurlClientFactory factory, IConfiguration configuration)
         {
-            _flurlClient = factory.Get("http://localhost:8090");
+            _flurlClient = factory.Get(configuration["fluree"]);
         }
 
         private class CommandData

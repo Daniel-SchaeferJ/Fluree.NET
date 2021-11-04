@@ -5,6 +5,7 @@ using Xunit;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests
 {
@@ -12,9 +13,9 @@ namespace IntegrationTests
     public class FlureeServerAndStateTest
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeServerAndStateTest(IFlurlClientFactory factory)
+        public FlureeServerAndStateTest(IFlurlClientFactory factory, IConfiguration configuration)
         {
-            _flurlClient = factory.Get("http://localhost:8090");
+            _flurlClient = factory.Get(configuration["fluree"]);
         }
 
 

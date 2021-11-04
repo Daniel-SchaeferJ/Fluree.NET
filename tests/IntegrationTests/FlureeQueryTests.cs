@@ -12,18 +12,15 @@ namespace IntegrationTests
     public class FlureeQueryTests
     {
         private readonly IFlurlClient _flurlClient;
-        private readonly IConfiguration _configuration;
         public FlureeQueryTests(IFlurlClientFactory factory, IConfiguration configuration)
         {
-            _flurlClient = factory.Get("http://localhost:8090");
-            _configuration = configuration;
+            _flurlClient = factory.Get(configuration["fluree"]);
         }
 
         [Fact]
         public async Task CanQueryData()
         {
             //Arrange
-            var yeet = _configuration["fluree"];
             //Act
             var result = await _flurlClient.Request("/fdb/reporting/yearly/query").PostJsonAsync(new JsonSqlQuery
             {
