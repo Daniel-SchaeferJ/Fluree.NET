@@ -23,7 +23,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
 
         public async Task ExectureSingleFlureeQuery()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

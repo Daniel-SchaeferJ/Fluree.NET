@@ -1,12 +1,8 @@
 ﻿using Flurl.Http;
 using Flurl.Http.Configuration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,16 +12,18 @@ namespace IntegrationTests
     public class FlureeQueryTests
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeQueryTests(IFlurlClientFactory factory)
+        private readonly IConfiguration _configuration;
+        public FlureeQueryTests(IFlurlClientFactory factory, IConfiguration configuration)
         {
             _flurlClient = factory.Get("http://localhost:8090");
+            _configuration = configuration;
         }
 
         [Fact]
         public async Task CanQueryData()
         {
             //Arrange
-
+            var yeet = _configuration["fluree"];
             //Act
             var result = await _flurlClient.Request("/fdb/reporting/yearly/query").PostJsonAsync(new JsonSqlQuery
             {
