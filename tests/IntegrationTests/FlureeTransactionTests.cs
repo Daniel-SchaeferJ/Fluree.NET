@@ -76,30 +76,6 @@ namespace IntegrationTests
             //Assert
             Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
         }
-        private class AddCollectionJsonBody
-        {
-            [JsonProperty("_id")]
-            public string? AddCollectionId { get; } = "_collection";
-            [JsonProperty("name")]
-            public string? CollectionName { get; set; }
-            [JsonProperty("doc")]
-            public string? CollectionDescription { get; set; }
-            [JsonProperty("version")]
-            public string? CollectionVersion { get; set; }
-        }
-
-        private class AddPredicateBody
-        {
-            [JsonProperty("_id")]
-            public string? AddPredicateId { get; } = "_predicate";
-            [JsonProperty("name")]
-            public string? PredicateName { get; set; }
-            [JsonProperty("doc")]
-            public string? PredicateDescription { get; set; }
-            [JsonProperty("type")]
-            public string? ValueType { get; set; }
-        }
-
         private class AddTransactionData
         {
             [JsonProperty("_id")]
