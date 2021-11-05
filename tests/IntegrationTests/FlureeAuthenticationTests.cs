@@ -2,7 +2,6 @@
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 

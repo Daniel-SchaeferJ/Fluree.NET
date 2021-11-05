@@ -1,5 +1,6 @@
 ﻿using FlureeDotnetLibrary.FlureeDatabase;
 using FlureeDotnetLibrary.FlureeQuery;
+using FlureeDotnetLibrary.FlureeServer;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +10,7 @@ namespace IntegrationTests
 {
     public class Startup
     {
-       
+
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -19,8 +20,9 @@ namespace IntegrationTests
               .Build();
             services.AddSingleton(configuration);
             services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
-            services.AddTransient<IExecuteFlureeQuery, FLureeQuery>();
-            services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>(); 
+            services.AddTransient<IExecuteFlureeQuery, FLureeQueryService>();
+            services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>();
+            services.AddTransient<IFlureeServerService, FlureeServerService>();
         }
     }
 }

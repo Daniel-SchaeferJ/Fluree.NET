@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using FlureeDotnetLibrary.FlureeQuery.Model;
+﻿using FlureeDotnetLibrary.FlureeQuery.Model;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FlureeDotnetLibrary.FlureeQuery
@@ -14,10 +12,10 @@ namespace FlureeDotnetLibrary.FlureeQuery
     {
         public Task<IList<dynamic>> ExectureSingleFlureeQuery(QueryBuilder queryBuilder, string network, string ledger); 
     }
-    public class FLureeQuery : IExecuteFlureeQuery
+    public class FLureeQueryService : IExecuteFlureeQuery
     {
         private readonly IFlurlClient _flurlClient;
-        public FLureeQuery(IFlurlClientFactory factory, IConfiguration config)
+        public FLureeQueryService(IFlurlClientFactory factory, IConfiguration config)
         {
             _flurlClient = factory.Get(config["fluree"]);
         }

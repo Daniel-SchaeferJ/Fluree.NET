@@ -1,10 +1,5 @@
 ﻿using FlureeDotnetLibrary.FlureeQuery;
 using FlureeDotnetLibrary.FlureeQuery.Model;
-using Flurl.Http;
-using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;

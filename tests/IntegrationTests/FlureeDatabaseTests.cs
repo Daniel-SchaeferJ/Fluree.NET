@@ -1,9 +1,4 @@
 ﻿using FlureeDotnetLibrary.FlureeDatabase;
-using Flurl.Http;
-using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -38,7 +33,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.CreateANewLedgerDatabase("reporting", "yeetly4");
+            var result = await _flureeDatabaseService.CreateANewLedgerDatabase("test", "ledger1");
 
             //Assert
             Assert.True(result is not null);
@@ -50,7 +45,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.DeleteLedgerDatabase("reporting", "yeetly3");
+            var result = await _flureeDatabaseService.DeleteLedgerDatabase("test", "ledger1");
 
             //Assert
             Assert.True(result is not null);
