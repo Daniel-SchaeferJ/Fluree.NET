@@ -15,7 +15,7 @@ namespace IntegrationTests
     public class FlureeQueryTests
     {
         private readonly IExecuteFlureeQuery _executeFlureeQuery;
-        public FlureeQueryTests(IConfiguration configuration, IExecuteFlureeQuery executeFlureeQuery)
+        public FlureeQueryTests(IExecuteFlureeQuery executeFlureeQuery)
         {
             _executeFlureeQuery = executeFlureeQuery;
         }
@@ -26,7 +26,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery<dynamic>(new QueryBuilder
+            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery(new QueryBuilder
             {
                 SqlSelect = new List<string>()
                         {
@@ -39,19 +39,7 @@ namespace IntegrationTests
 
 
             //Assert
-            Assert.NotEmpty(result);
-        }
-
-        private class JsonSqlQuery
-        {
-            [JsonProperty("select")]
-            public List<string>? SqlSelect { get; set; }
-            [JsonProperty("from")]
-            public string? SqlFrom { get; set; }
-            
-            [JsonProperty("where")]
-            public string? SqlWhere { get; set; }
-
+            Assert.NotNull(result);
         }
     }
 }

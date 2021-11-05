@@ -12,7 +12,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
 {
     public interface IExecuteFlureeQuery
     {
-        public Task<dynamic> ExectureSingleFlureeQuery<T>(QueryBuilder queryBuilder, string network, string ledger); 
+        public Task<IList<dynamic>> ExectureSingleFlureeQuery(QueryBuilder queryBuilder, string network, string ledger); 
     }
     public class FLureeQuery : IExecuteFlureeQuery
     {
@@ -22,7 +22,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
             _flurlClient = factory.Get(config["fluree"]);
         }
 
-        public async Task<dynamic> ExectureSingleFlureeQuery<T>(QueryBuilder queryBuilder, string network, string ledger)
+        public async Task<IList<dynamic>> ExectureSingleFlureeQuery(QueryBuilder queryBuilder, string network, string ledger)
         {
             if (queryBuilder is null)
             {
@@ -41,14 +41,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
 
             var result = await _flurlClient.Request($"/fdb/{network}/{ledger}/query").PostJsonAsync(queryBuilder).ReceiveJsonList();
 
-            //try
-            //{
-            //    //return _mapper.Map<T>(result);
-            //}
-            //catch
-            //{
                 return result; 
-            //}
         }
     }
 }

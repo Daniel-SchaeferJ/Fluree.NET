@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using FlureeDotnetLibrary.FlureeDatabase;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -11,11 +12,12 @@ namespace IntegrationTests
     [Trait("Category", "Database")]
     public class FlureeDatabaseTests
     {
-        private readonly IFlurlClient _flurlClient;
-        public FlureeDatabaseTests(IFlurlClientFactory factory, IConfiguration configuration)
+        private readonly IFlureeDatabaseService _flureeDatabaseService;
+        public FlureeDatabaseTests(IFlureeDatabaseService flureeDatabaseService)
         {
-            _flurlClient = factory.Get(configuration["fluree"]);
+            _flureeDatabaseService = flureeDatabaseService;
         }
+
 
         [Fact]
         public async Task GetAllDataBasesFromFlureeTest()
@@ -23,10 +25,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/dbs").GetAsync();
+            var result = await _flureeDatabaseService.GetAllLedgers();
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
 
 
@@ -36,42 +38,23 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseJsonObjectBody
-            {
-                Database = "reporting/yearly"
-            });
+            var result = await _flureeDatabaseService.CreateANewLedgerDatabase("reporting", "yeetly4");
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
 
         [Fact]
         public async Task CanDeleteADatabase()
         {
             //Arrange
-            await _flurlClient.WithHeaders(new FlureeDatabaseJsonObjectHeader { }).Request("/dbs").PostAsync();
 
             //Act
-            var result = await _flurlClient.Request("/fdb/delete-db").PostJsonAsync(new FlureeDatabaseJsonObjectBody
-            {
-                ServerName = "GHI"
-            });
+            var result = await _flureeDatabaseService.DeleteLedgerDatabase("reporting", "yeetly3");
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
 
-        private class FlureeDatabaseJsonObjectBody
-        {
-            [JsonProperty("db/id")]
-            public string Database { get; set; }
-            [JsonProperty("server")]
-            public string ServerName { get; set; }
-        }
-
-        private class FlureeDatabaseJsonObjectHeader
-        {
-
-        }
     }
 }
