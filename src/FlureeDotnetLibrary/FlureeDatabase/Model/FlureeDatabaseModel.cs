@@ -2,7 +2,7 @@
 
 namespace FlureeDotnetLibrary.FlureeDatabase.Model
 {
-    public class FlureeDatabaseJsonObject
+    public class FlureeDatabaseModel
     {
         /// <summary>
         /// Network and ledger identification property.

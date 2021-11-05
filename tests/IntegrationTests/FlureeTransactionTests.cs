@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using FlureeDotnetLibrary.FlureeCommand;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -16,9 +17,11 @@ namespace IntegrationTests
     public class FlureeTransactionTests
     {
         private readonly IFlurlClient _flurlClient;
-        public FlureeTransactionTests(IFlurlClientFactory factory, IConfiguration configuration)
+        private readonly IFlureeCommandService _flureeCommandService;
+        public FlureeTransactionTests(IFlurlClientFactory factory, IConfiguration configuration, IFlureeCommandService flureeCommandService)
         {
             _flurlClient = factory.Get(configuration["fluree"]);
+            _flureeCommandService = flureeCommandService;
         }
 
         [Fact]
@@ -27,20 +30,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/reporting/yearly/transact").PostJsonAsync(new List<AddCollectionJsonBody>()
-            {
-                new AddCollectionJsonBody
-                {
-                    CollectionName = "topsellingproduct",
-                    CollectionDescription = "The top selling products over the last year",
-                    CollectionVersion = "1"
-                }
-
-            });
-
+            var result = await _flureeCommandService.CreateFlureeCollectionCommand("reporting", "yeetly", "collection1", "A test collection to add to FLuree");
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
         [Fact]
         public async Task CanCreateCollectionPredicate()

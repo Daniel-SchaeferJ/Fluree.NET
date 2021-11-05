@@ -1,4 +1,5 @@
-﻿using FlureeDotnetLibrary.FlureeDatabase;
+﻿using FlureeDotnetLibrary.FlureeCommand;
+using FlureeDotnetLibrary.FlureeDatabase;
 using FlureeDotnetLibrary.FlureeQuery;
 using FlureeDotnetLibrary.FlureeServer;
 using Flurl.Http.Configuration;
@@ -23,6 +24,7 @@ namespace IntegrationTests
             services.AddTransient<IExecuteFlureeQuery, FLureeQueryService>();
             services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>();
             services.AddTransient<IFlureeServerService, FlureeServerService>();
+            services.AddTransient<IFlureeCommandService, FlureeCommandService>();
         }
     }
 }

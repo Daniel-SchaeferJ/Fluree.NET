@@ -30,7 +30,7 @@ namespace FlureeDotnetLibrary.FlureeServer
         /// </returns>
         public async Task<dynamic> CreateFlureeServer(string serverName)
         {
-            return await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new FlureeServerJsonObject
+            return await _flurlClient.Request("/fdb/add-server").PostJsonAsync(new FlureeServerModel
             {
                 ServerName = $"{serverName}"
             }).ReceiveJson();
@@ -38,7 +38,7 @@ namespace FlureeDotnetLibrary.FlureeServer
 
         public async Task<dynamic> DeleteFlureeServer(string serverName)
         {
-            return await _flurlClient.Request("/fdb/remove-server").PostJsonAsync(new FlureeServerJsonObject
+            return await _flurlClient.Request("/fdb/remove-server").PostJsonAsync(new FlureeServerModel
             {
                 ServerName = $"{serverName}"
             }).ReceiveJson();

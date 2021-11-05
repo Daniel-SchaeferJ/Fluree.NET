@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Folder Include="FlureeAuthentication\" />
-    <Folder Include="FlureeCommand\Model\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
 
   <ItemGroup>

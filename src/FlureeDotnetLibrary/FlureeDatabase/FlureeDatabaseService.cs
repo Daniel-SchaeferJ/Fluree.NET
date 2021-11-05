@@ -32,13 +32,13 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// Creats a new ledger. It can be put under an exsisting network, or if the network does not exsist, a new one is created.
         /// </summary>
         /// <param name="networkName">The network name to put the ledger in</param>
-        /// <param name="databaseName">The new ledger to be created</param>
+        /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
-        public async Task<string> CreateANewLedgerDatabase(string networkName, string databaseName)
+        public async Task<string> CreateANewLedgerDatabase(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseJsonObject
+            return await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseModel
             {
-                NetworkAndDatabase = $"{networkName}/{databaseName}"
+                NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveString();
         }
 
@@ -49,13 +49,13 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// You will not be able to create a new ledger with the same name as the deleted ledger.
         /// </summary>
         /// <param name="networkName">The network name to put the ledger in</param>
-        /// <param name="databaseName">The new ledger to be created</param>
+        /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>If deletion was successful it will return the {networkId}/{ledger that was deleted} as a json object</returns>
-        public async Task<dynamic> DeleteLedgerDatabase(string networkName, string databaseName)
+        public async Task<dynamic> DeleteLedgerDatabase(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request("/fdb/delete-db").PostJsonAsync(new FlureeDatabaseJsonObject
+            return await _flurlClient.Request("/fdb/delete-db").PostJsonAsync(new FlureeDatabaseModel
             {
-                NetworkAndDatabase = $"{networkName}/{databaseName}"
+                NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveJson();
         }
     }

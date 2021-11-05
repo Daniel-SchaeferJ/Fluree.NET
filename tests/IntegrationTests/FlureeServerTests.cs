@@ -24,7 +24,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeServerService.CreateFlureeServer("yeet");
+            var result = await _flureeServerService.CreateFlureeServer("test");
 
             //Assert
             Assert.True(result is not null); 
@@ -36,7 +36,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeServerService.DeleteFlureeServer("yeet");
+            var result = await _flureeServerService.DeleteFlureeServer("test");
 
             //Assert
             Assert.True(result is not null);
