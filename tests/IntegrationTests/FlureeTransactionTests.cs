@@ -41,20 +41,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flurlClient.Request("/fdb/reporting/yearly/transact").PostJsonAsync(new List<AddPredicateBody>()
-            {
-                new AddPredicateBody
-                {
-                    PredicateName = "TopSellingProduct/quantity",
-                    PredicateDescription = "Product sku for F13 Works",
-                    ValueType = "int"
-                }
-
-            });
-
+            var result = await _flureeCommandService.CreateFlureePredicateCommand("reporting", "yeetly", "collection1", "predicate1", "A test collection to add to FLuree", "string");
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
 
         [Fact]

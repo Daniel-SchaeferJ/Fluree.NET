@@ -10,7 +10,7 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
         public class FlureeCollectionBody
         {
             [JsonProperty("_id")]
-            public string? AddCollectionId { get; } = "_collection";
+            public string? CollectionId = "_collection";
             [JsonProperty("name")]
             public string? CollectionName { get; set; }
             [JsonProperty("doc")]
@@ -22,13 +22,13 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
         public class FlureePredicateBody
         {
             [JsonProperty("_id")]
-            public string? AddPredicateId { get; } = "_predicate";
+            public string? PredicateId = "_predicate";
             [JsonProperty("name")]
             public string? PredicateName { get; set; }
             [JsonProperty("doc")]
             public string? PredicateDescription { get; set; }
             [JsonProperty("type")]
-            public string? ValueType { get; set; }
+            public string? DataType { get; set; }
         }
 
         public class FlureeTransactionBody

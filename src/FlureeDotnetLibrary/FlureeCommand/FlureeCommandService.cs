@@ -3,13 +3,14 @@ using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlureeDotnetLibrary.FlureeCommand.Model; 
+using FlureeDotnetLibrary.FlureeCommand.Model;
 
 namespace FlureeDotnetLibrary.FlureeCommand
 {
     public interface IFlureeCommandService
     {
         public Task<string> CreateFlureeCollectionCommand(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
+        public Task<string> CreateFlureePredicateCommand(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
     }
     public class FlureeCommandService : IFlureeCommandService
     {
@@ -21,11 +22,11 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <summary>
         /// Adds a collection(in relational database terms a table) to a given ledger
         /// </summary>
-        /// <param name="networkId">THe network</param>
-        /// <param name="ledgerName"></param>
-        /// <param name="collectionName"></param>
-        /// <param name="collectionDescription"></param>
-        /// <param name="verion"></param>
+        /// <param name="networkId">The network that contains the ledger you want to add to</param>
+        /// <param name="ledgerName">The ledger you want to add the collection to</param>
+        /// <param name="collectionName">The name of the collection to add</param>
+        /// <param name="collectionDescription">Description of the collection you are adding</param>
+        /// <param name="verion">Version is like migration in Ids. If this is the first time creating the collection, version is 1</param>
         #region ExampleReturnOutput
         /// <returns>Returns a string of the command that haapened. Example output. {"tempids":{"_collection":[17592186044440,17592186044440]},"block":6,"hash":"44e65ef5406a99281aa45b0bfb8908484d56e8d612332f0342d282666c156db9",
         /// "instant":1636128750651,"type":"tx","duration":"7ms","fuel":830,"auth":"TfCSi5KvDYKRdkR9RgSsUhgKBZCM9N85iri","status":200,
@@ -49,5 +50,41 @@ namespace FlureeDotnetLibrary.FlureeCommand
 
             }).ReceiveString();
         }
+        /// <summary>
+        /// Adds a predicate(in relational database terms a column) to a given collection
+        /// </summary>
+        /// <param name="networkId">The network that contains the ledger you want to add to</param>
+        /// <param name="ledgerName">The ledger you want to add the predicate to</param>
+        /// <param name="collectionName">The collection name you want to add the predicate to</param>
+        /// <param name="predicateName">The name of the predicate you are adding</param>
+        /// <param name="predicateDescription">Description of the predicate you are adding</param>
+        /// <param name="datatype">The type you want the predicate to be like integer, string etc . Allowed 
+        /// types are here https://docs.flur.ee/docs/schema/predicates</param>
+        #region ExampleReturnOutput
+        /// <returns>Example data string returned 
+        /// {"tempids":{"_predicate":[1001,1001]},"block":7,"hash":"b52e102d30cbf8e9d18219400503ff3ec4589b0ae0e00b4cb6db67c366974491","instant":1636130382842,
+        /// "type":"tx","duration":"271ms","fuel":820,"auth":"TfCSi5KvDYKRdkR9RgSsUhgKBZCM9N85iri","status":200,"id":"ccd318d5fcfbba3eba19d4c2c1d34f6a462e8bad5e3730622eb5db17c6e5b916","bytes":810,"t":-13,"flakes":[[1001,10,
+        /// "collection1/predicate1",-13,true,null],[1001,11,"A test collection to add to FLuree",-13,true,null],[1001,12,52776558133249,-13,true,null],
+        /// [-13,99,"e3efdd9d3a92d03f8c2a0797bf252987aab093dec8d2774112d0d01f24af82ac",-13,true,null],[-13,100,"ccd318d5fcfbba3eba19d4c2c1d34f6a462e8bad5e3730622eb5db17c6e5b916",-13,true,null],
+        /// [-13,101,105553116266496,-13,true,null],[-13,103,1636130382543,-13,true,null],[-13,106,"{\"type\":\"tx\",\"db\":\"reporting/yeetly\",\"tx\":[{\"_id\":\"_predicate\",\"name\":\"collection1/predicate1\",
+        /// \"doc\":\"A test collection to add to FLuree\",\"type\":\"string\"}],\"nonce\":1636130382543,\"auth\":\"TfCSi5KvDYKRdkR9RgSsUhgKBZCM9N85iri\",\"expire\":1636130682563}",-13,true,null],
+        /// [-13,107,"1b3045022100ce95aa54f9063383474ba925cb176ab43f993d56892198d6cf6de56511aa3a3c0220662af85ed8ba91ed5682a71fb6994704c679bf4b7d43f8de097b10caffde2957",-13,true,null],[-13,108,
+        /// "{\"_predicate\":[1001,1001]}",-13,true,null]]}
+        /// </returns> 
+        #endregion
+        public async Task<string> CreateFlureePredicateCommand(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
+        {
+            return await _flurlClient.Request($"/fdb/{networkId}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
+            {
+                new FlureeCommandModel.FlureePredicateBody
+                {
+                    PredicateName = $"{collectionName}/{predicateName}",
+                    PredicateDescription = $"{predicateDescription}",
+                    DataType = $"{datatype}"
+                }
+
+            }).ReceiveString();
+        }
     }
+
 }
