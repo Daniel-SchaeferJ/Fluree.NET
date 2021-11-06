@@ -1,4 +1,5 @@
 ﻿using FlureeDotnetLibrary.FlureeCommand;
+using FlureeDotnetLibrary.FlureeCommand.Model;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
+using static FlureeDotnetLibrary.FlureeCommand.Model.FlureeCommandModel;
 
 namespace IntegrationTests
 {
@@ -51,40 +53,35 @@ namespace IntegrationTests
         public async Task CanAddSampleData()
         {
             //Arrange
-
-            //Act
-            var result = await _flurlClient.Request("/fdb/reporting/yearly/transact").PostJsonAsync(new List<AddTransactionData>()
+            var transactionCommandList = new List<AddTransactionData>()
             {
                 new AddTransactionData
                 {
                     CollectionId = "TopSellingProduct",
-                    Quantity = 5,
-                    Sku = "The first F13 Product!"
-
+                    Quantity = 15,
+                    Sku = "The second F13 Product!"
                 },
                 new AddTransactionData
                 {
                     CollectionId = "TopSellingProduct",
                     Quantity = 15,
                     Sku = "The second F13 Product!"
-
                 }
-
-            });
-
+            };
+            
+            //Act
+            var result = await _flureeCommandService.InsertDataIntoFluree("reporting", "yearly", transactionCommandList); 
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
-        private class AddTransactionData
+        public  class AddTransactionData : IFlureeTransactionDataParentBody
         {
-            [JsonProperty("_id")]
-            public string? CollectionId { get; set; }
             [JsonProperty("quantity")]
             public int? Quantity { get; set; }
             [JsonProperty("sku")]
             public string? Sku { get; set; }
-
+            public string? CollectionId { get; set; }
         }
     }
 }
