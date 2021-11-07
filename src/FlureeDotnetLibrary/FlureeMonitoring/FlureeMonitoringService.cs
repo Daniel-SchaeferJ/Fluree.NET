@@ -12,7 +12,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
     {
         public Task<dynamic> GetFlureeNetworkStatus();
         public Task<dynamic> GetServerHasDeployedToNetwork();
-        public Task<string> GetLedgerInformation(string networkName, string ledgerName);
+        public Task<dynamic> GetLedgerInformation(string networkName, string ledgerName);
     }
     public class FlureeMonitoringService : IFlureeMonitoringService
     {
@@ -27,9 +27,9 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
             return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson();
         }
 
-        public async Task<string> GetLedgerInformation(string networkName, string ledgerName)
+        public async Task<dynamic> GetLedgerInformation(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/database-stats").PostAsync().ReceiveString();
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/database-stats").PostAsync().ReceiveJson();
         }
 
         public async Task<dynamic> GetServerHasDeployedToNetwork()
