@@ -26,7 +26,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         {
             return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson();
         }
-
+        //TODO This endpoint fails on the fluree server side so must investigate further. 
         public async Task<dynamic> GetLedgerInformation(string networkName, string ledgerName)
         {
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/database-stats").PostAsync().ReceiveJson();
