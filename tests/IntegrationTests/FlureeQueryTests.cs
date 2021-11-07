@@ -28,7 +28,7 @@ namespace IntegrationTests
                 SqlFrom = "TopSellingProduct"
             };
             //Act
-            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery("reporting", "yearly", query);
+            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery("test", "ledger1", query);
 
             //Assert
             Assert.True(result is not null); 

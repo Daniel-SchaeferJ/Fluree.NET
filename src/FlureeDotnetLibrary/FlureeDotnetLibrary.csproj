@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FlureeAuthentication\" />
-    <Folder Include="Utility\" />
+    <Folder Include="FlureeMonitoring\MonitoringModels\" />
   </ItemGroup>
 
   <ItemGroup>

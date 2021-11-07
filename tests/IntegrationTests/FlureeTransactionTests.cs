@@ -32,7 +32,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreateFlureeCollectionCommand("reporting", "yeetly", "collection1", "A test collection to add to FLuree");
+            var result = await _flureeCommandService.CreateFlureeCollectionCommand("test", "ledger1", "collection1", "A test collection to add to FLuree");
 
             //Assert
             Assert.True(result is not null);
@@ -43,7 +43,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreateFlureePredicateCommand("reporting", "yeetly", "collection1", "predicate1", "A test collection to add to FLuree", "string");
+            var result = await _flureeCommandService.CreateFlureePredicateCommand("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
 
             //Assert
             Assert.True(result is not null);
@@ -57,20 +57,18 @@ namespace IntegrationTests
             {
                 new AddTransactionData
                 {
-                    CollectionId = "TopSellingProduct",
+                    CollectionId = "collection1",
                     Quantity = 15,
-                    Sku = "The second F13 Product!"
                 },
                 new AddTransactionData
                 {
-                    CollectionId = "TopSellingProduct",
+                    CollectionId = "collection1",
                     Quantity = 15,
-                    Sku = "The second F13 Product!"
                 }
             };
             
             //Act
-            var result = await _flureeCommandService.InsertDataIntoFluree("reporting", "yearly", transactionCommandList); 
+            var result = await _flureeCommandService.InsertDataIntoFluree("test", "ledger1", transactionCommandList); 
 
             //Assert
             Assert.True(result is not null);
@@ -79,8 +77,6 @@ namespace IntegrationTests
         {
             [JsonProperty("quantity")]
             public int? Quantity { get; set; }
-            [JsonProperty("sku")]
-            public string? Sku { get; set; }
         }
     }
 }
