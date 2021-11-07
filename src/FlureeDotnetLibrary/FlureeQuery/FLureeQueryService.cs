@@ -10,7 +10,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
 {
     public interface IExecuteFlureeQuery
     {
-        public Task<IList<dynamic>> ExectureSingleFlureeQuery(QueryBuilder queryBuilder, string network, string ledger); 
+        public Task<IList<dynamic>> ExectureSingleFlureeQuery(string networkName, string ledgerName, QueryBuilder queryBuilder); 
     }
     public class FLureeQueryService : IExecuteFlureeQuery
     {
@@ -20,26 +20,21 @@ namespace FlureeDotnetLibrary.FlureeQuery
             _flurlClient = factory.Get(config["fluree"]);
         }
 
-        public async Task<IList<dynamic>> ExectureSingleFlureeQuery(QueryBuilder queryBuilder, string network, string ledger)
+        //TODO When the user uses the select one statement, this query erros out as it returns a list and not a Json Object. 
+        //Will investigate in the future.
+        /// <summary>
+        /// This will query the fluree node much like how normal SQL works. Its returns a JSON list or individual object desired by user 
+        /// based on the query
+        /// </summary>
+        /// <param name="networkName">The network where the desired data lives under</param>
+        /// <param name="ledgerName">The ledger where the desired data lives under</param>
+        /// <param name="queryBuilder">The query to be executed baed on what the user entered.</param>
+        /// <returns>A list, single object, or nothing based on the query results.</returns>
+        public async Task<IList<dynamic>> ExectureSingleFlureeQuery(string networkName, string ledgerName, QueryBuilder queryBuilder)
         {
-            if (queryBuilder is null)
-            {
-                throw new ArgumentNullException(nameof(queryBuilder));
-            }
 
-            if (string.IsNullOrEmpty(network))
-            {
-                throw new ArgumentException($"'{nameof(network)}' cannot be null or empty.", nameof(network));
-            }
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJsonList();
 
-            if (string.IsNullOrEmpty(ledger))
-            {
-                throw new ArgumentException($"'{nameof(ledger)}' cannot be null or empty.", nameof(ledger));
-            }
-
-            var result = await _flurlClient.Request($"/fdb/{network}/{ledger}/query").PostJsonAsync(queryBuilder).ReceiveJsonList();
-
-                return result; 
         }
     }
 }

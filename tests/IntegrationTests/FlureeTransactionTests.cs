@@ -1,4 +1,5 @@
 ﻿using FlureeDotnetLibrary.FlureeCommand;
+using FlureeDotnetLibrary.FlureeCommand.Model;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
+using static FlureeDotnetLibrary.FlureeCommand.Model.FlureeCommandModel;
 
 namespace IntegrationTests
 {
@@ -51,64 +53,34 @@ namespace IntegrationTests
         public async Task CanAddSampleData()
         {
             //Arrange
-
-            //Act
-            var result = await _flurlClient.Request("/fdb/reporting/yearly/transact").PostJsonAsync(new List<AddTransactionData>()
+            var transactionCommandList = new List<FlureeTransactionDataParentBody>()
             {
                 new AddTransactionData
                 {
                     CollectionId = "TopSellingProduct",
-                    Quantity = 5,
-                    Sku = "The first F13 Product!"
-
+                    Quantity = 15,
+                    Sku = "The second F13 Product!"
                 },
                 new AddTransactionData
                 {
                     CollectionId = "TopSellingProduct",
                     Quantity = 15,
                     Sku = "The second F13 Product!"
-
                 }
-
-            });
-
+            };
+            
+            //Act
+            var result = await _flureeCommandService.InsertDataIntoFluree("reporting", "yearly", transactionCommandList); 
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, result.ResponseMessage.StatusCode);
+            Assert.True(result is not null);
         }
-        private class AddCollectionJsonBody
+        public  class AddTransactionData : FlureeTransactionDataParentBody
         {
-            [JsonProperty("_id")]
-            public string? AddCollectionId { get; } = "_collection";
-            [JsonProperty("name")]
-            public string? CollectionName { get; set; }
-            [JsonProperty("doc")]
-            public string? CollectionDescription { get; set; }
-            [JsonProperty("version")]
-            public string? CollectionVersion { get; set; }
-        }
-
-        private class AddPredicateBody
-        {
-            [JsonProperty("_id")]
-            public string? AddPredicateId { get; } = "_predicate";
-            [JsonProperty("name")]
-            public string? PredicateName { get; set; }
-            [JsonProperty("doc")]
-            public string? PredicateDescription { get; set; }
-            [JsonProperty("type")]
-            public string? ValueType { get; set; }
-        }
-
-        private class AddTransactionData
-        {
-            [JsonProperty("_id")]
-            public string? CollectionId { get; set; }
             [JsonProperty("quantity")]
             public int? Quantity { get; set; }
             [JsonProperty("sku")]
             public string? Sku { get; set; }
-
         }
     }
 }
