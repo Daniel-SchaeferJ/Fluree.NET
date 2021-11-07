@@ -11,7 +11,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
     {
         public Task<string> CreateFlureeCollectionCommand(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
         public Task<string> CreateFlureePredicateCommand(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
-        public Task<dynamic> InsertDataIntoFluree<T>(string networkId, string ledgerName, List<T> transactionCommands) where T : IFlureeTransactionDataParentBody; 
+        public Task<dynamic> InsertDataIntoFluree(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands); 
     }
     public class FlureeCommandService : IFlureeCommandService
     {
@@ -23,7 +23,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <summary>
         /// Adds a collection(in relational database terms a table) to a given ledger
         /// </summary>
-        /// <param name="networkId">The network that contains the ledger you want to add to</param>
+        /// <param name="networkName">The network that contains the ledger you want to add to</param>
         /// <param name="ledgerName">The ledger you want to add the collection to</param>
         /// <param name="collectionName">The name of the collection to add</param>
         /// <param name="collectionDescription">Description of the collection you are adding</param>
@@ -40,9 +40,9 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// -11,true,null],[-11,108,"{\"_collection\":[17592186044440,17592186044440]}",-11,true,null]]}
         /// </returns> 
         #endregion
-        public async Task<string> CreateFlureeCollectionCommand(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
+        public async Task<string> CreateFlureeCollectionCommand(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
         {
-            return await _flurlClient.Request($"/fdb/{networkId}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureeCollectionBody>()
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureeCollectionBody>()
             {
                 new FlureeCommandModel.FlureeCollectionBody
                 {
@@ -56,7 +56,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <summary>
         /// Adds a predicate(in relational database terms a column) to a given collection
         /// </summary>
-        /// <param name="networkId">The network that contains the ledger you want to add to</param>
+        /// <param name="networkName">The network that contains the ledger you want to add to</param>
         /// <param name="ledgerName">The ledger you want to add the predicate to</param>
         /// <param name="collectionName">The collection name you want to add the predicate to</param>
         /// <param name="predicateName">The name of the predicate you are adding</param>
@@ -75,9 +75,9 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// "{\"_predicate\":[1001,1001]}",-13,true,null]]}
         /// </returns> 
         #endregion
-        public async Task<string> CreateFlureePredicateCommand(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
+        public async Task<string> CreateFlureePredicateCommand(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
         {
-            return await _flurlClient.Request($"/fdb/{networkId}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
             {
                 new FlureeCommandModel.FlureePredicateBody
                 {
@@ -92,13 +92,13 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// INsert formatted data into you fluree node based of the collection and predicates you made
         /// </summary>
         /// <typeparam name="T">The object in which the collection/predicate is based off of</typeparam>
-        /// <param name="networkId">The network that contains the ledger you want to add to</param>
+        /// <param name="networkName">The network that contains the ledger you want to add to</param>
         /// <param name="ledgerName">The ledger you want to add the collection to</param>
         /// <param name="transactionCommands">A list of all data that you wish to put into your data node</param>
         /// <returns>Returns a json object that shows how long the operation took, what block it was in, and other informational data</returns>
-        public async Task<dynamic> InsertDataIntoFluree<T>(string networkId, string ledgerName, List<T> transactionCommands) where T : IFlureeTransactionDataParentBody
+        public async Task<dynamic> InsertDataIntoFluree(string networkName, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands)
         {
-            return await _flurlClient.Request($"/fdb/{networkId}/{ledgerName}/transact").PostJsonAsync(transactionCommands).ReceiveJson();
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(transactionCommands).ReceiveJson();
         }
     }
 

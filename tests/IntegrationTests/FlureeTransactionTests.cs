@@ -53,7 +53,7 @@ namespace IntegrationTests
         public async Task CanAddSampleData()
         {
             //Arrange
-            var transactionCommandList = new List<AddTransactionData>()
+            var transactionCommandList = new List<FlureeTransactionDataParentBody>()
             {
                 new AddTransactionData
                 {
@@ -75,13 +75,12 @@ namespace IntegrationTests
             //Assert
             Assert.True(result is not null);
         }
-        public  class AddTransactionData : IFlureeTransactionDataParentBody
+        public  class AddTransactionData : FlureeTransactionDataParentBody
         {
             [JsonProperty("quantity")]
             public int? Quantity { get; set; }
             [JsonProperty("sku")]
             public string? Sku { get; set; }
-            public string? CollectionId { get; set; }
         }
     }
 }

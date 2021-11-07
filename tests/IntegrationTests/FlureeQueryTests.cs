@@ -19,22 +19,24 @@ namespace IntegrationTests
         public async Task CanQueryData()
         {
             //Arrange
-
-            //Act
-            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery(new QueryBuilder
+            var query = new ExtendedQuery
             {
                 SqlSelect = new List<string>()
                         {
                             "*"
                         },
                 SqlFrom = "TopSellingProduct"
-            }
-            ,"reporting", "yearly"); 
-
-
+            };
+            //Act
+            var result = await _executeFlureeQuery.ExectureSingleFlureeQuery("reporting", "yearly", query);
 
             //Assert
-            Assert.NotNull(result);
+            Assert.True(result is not null); 
+        }
+
+        private class ExtendedQuery : QueryBuilder
+        {
+
         }
     }
 }

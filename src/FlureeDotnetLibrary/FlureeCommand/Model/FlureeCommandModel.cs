@@ -35,7 +35,7 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
     /// The interface for which to add data. The parent body adds the collection
     /// id you wish to add to, and outside of that just add the predicates from your collection!
     /// </summary>
-    public interface IFlureeTransactionDataParentBody
+    public abstract class FlureeTransactionDataParentBody
     {
         [JsonProperty("_id")]
         public string? CollectionId { get; set; }
