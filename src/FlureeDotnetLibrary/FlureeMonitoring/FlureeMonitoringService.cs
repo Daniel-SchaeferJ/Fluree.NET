@@ -29,7 +29,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         //TODO This endpoint fails on the fluree server side so must investigate further. 
         public async Task<dynamic> GetLedgerInformation(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/database-stats").PostAsync().ReceiveJson();
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/ledger-stats").PostAsync().ReceiveJson();
         }
 
         public async Task<dynamic> GetServerHasDeployedToNetwork()
