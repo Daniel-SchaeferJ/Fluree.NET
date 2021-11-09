@@ -21,17 +21,28 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         {
             _flurlClient = factory.Get(config["fluree"]);
         }
-
+        /// <summary>
+        /// Get the network status of the entire deployed fluree network
+        /// </summary>
+        /// <returns>A JSON object of the statistics of the entire fluree network currently being run</returns>
         public async Task<dynamic> GetFlureeNetworkStatus()
         {
             return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson();
         }
-        //TODO This endpoint fails on the fluree server side so must investigate further. 
+        /// <summary>
+        /// Gets ledger information based upon the desired ledger
+        /// </summary>
+        /// <param name="networkName">The network the ledger lives under</param>
+        /// <param name="ledgerName">The desired ledger to get information from</param>
+        /// <returns>Returns a JSON object with statistics about the desired ledger</returns>
         public async Task<dynamic> GetLedgerInformation(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/database-stats").PostAsync().ReceiveJson();
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/ledger-stats").PostAsync().ReceiveJson();
         }
-
+        /// <summary>
+        /// See if the server deployed to the network
+        /// </summary>
+        /// <returns>Returns a status of the created network</returns>
         public async Task<dynamic> GetServerHasDeployedToNetwork()
         {
             return await _flurlClient.Request($"/fdb/health").PostAsync().ReceiveJson();
