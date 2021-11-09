@@ -1,5 +1,5 @@
 # Fluree.NET
-A dotnet library to interact with a fluree node. 
+A dotnet library to interact with Fluree.
 
 
 Getting started: 
