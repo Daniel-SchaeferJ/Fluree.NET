@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageId>Fluree.Net</PackageId>
-	  <Version>0.1.1</Version>
+	  <Version>0.1.2</Version>
 	  <Authors>Daniel</Authors>
 	  <PackageDescription>An API wrapper to communicate with Fluree</PackageDescription>
 	  <PackageProjectUrl>https://github.com/Daniel-SchaeferJ/Fluree.NET</PackageProjectUrl>
