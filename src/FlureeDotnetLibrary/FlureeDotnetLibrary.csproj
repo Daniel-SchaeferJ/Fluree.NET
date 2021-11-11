@@ -13,12 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="FlureeMonitoring\MonitoringModels\**" />
-    <EmbeddedResource Remove="FlureeMonitoring\MonitoringModels\**" />
-    <None Remove="FlureeMonitoring\MonitoringModels\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0">
       <TreatAsUsed>true</TreatAsUsed>
