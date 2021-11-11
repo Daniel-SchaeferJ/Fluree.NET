@@ -18,12 +18,12 @@ namespace IntegrationTests
     [Trait("Category", "Transact")]
     public class FlureeTransactionTests
     {
-        private readonly IFlurlClient _flurlClient;
         private readonly IFlureeCommandService _flureeCommandService;
-        public FlureeTransactionTests(IFlurlClientFactory factory, IConfiguration configuration, IFlureeCommandService flureeCommandService)
+        public FlureeTransactionTests()
         {
-            _flurlClient = factory.Get(configuration["fluree"]);
-            _flureeCommandService = flureeCommandService;
+            _flureeCommandService = new FlureeCommandService(
+                new PerBaseUrlFlurlClientFactory(),
+                "http://localhost:8090");
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreateFlureeCollectionCommand("test", "ledger1", "collection1", "A test collection to add to FLuree");
+            var result = await _flureeCommandService.CreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
 
             //Assert
             Assert.True(result is not null);
@@ -43,7 +43,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreateFlureePredicateCommand("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+            var result = await _flureeCommandService.CreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
 
             //Assert
             Assert.True(result is not null);
@@ -68,7 +68,7 @@ namespace IntegrationTests
             };
             
             //Act
-            var result = await _flureeCommandService.InsertDataIntoFluree("test", "ledger1", transactionCommandList); 
+            var result = await _flureeCommandService.Insert("test", "ledger1", transactionCommandList); 
 
             //Assert
             Assert.True(result is not null);

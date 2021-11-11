@@ -1,4 +1,5 @@
 ﻿using FlureeDotnetLibrary.FlureeMonitoring;
+using Flurl.Http.Configuration;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -8,9 +9,11 @@ namespace IntegrationTests
     public class FlureeMonitoringTests
     {
         private readonly IFlureeMonitoringService _flureeMonitoringService;
-        public FlureeMonitoringTests(IFlureeMonitoringService flureeMonitoringService)
+        public FlureeMonitoringTests()
         {
-            _flureeMonitoringService = flureeMonitoringService;
+            _flureeMonitoringService = new FlureeMonitoringService(
+                new PerBaseUrlFlurlClientFactory(),
+                "http://localhost:8090");
         }
 
         [Fact]
@@ -19,7 +22,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeMonitoringService.GetFlureeNetworkStatus(); 
+            var result = await _flureeMonitoringService.GetNetworkStatus(); 
 
             //Assert
             Assert.True(result is not null);
@@ -31,7 +34,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeMonitoringService.GetServerHasDeployedToNetwork();
+            var result = await _flureeMonitoringService.HasServerDeployedToNetwork();
 
             //Assert
             Assert.True(result is not null);

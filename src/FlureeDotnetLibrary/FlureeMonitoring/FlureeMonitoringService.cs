@@ -10,22 +10,22 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
 {
     public interface IFlureeMonitoringService
     {
-        public Task<dynamic> GetFlureeNetworkStatus();
-        public Task<dynamic> GetServerHasDeployedToNetwork();
+        public Task<dynamic> GetNetworkStatus();
+        public Task<dynamic> HasServerDeployedToNetwork();
         public Task<dynamic> GetLedgerInformation(string networkName, string ledgerName);
     }
-    public class FlureeMonitoringService : IFlureeMonitoringService
+    public class FlureeMonitoringService : BaseService, IFlureeMonitoringService
     {
-        private readonly IFlurlClient _flurlClient;
         public FlureeMonitoringService(IFlurlClientFactory factory, IConfiguration config)
-        {
-            _flurlClient = factory.Get(config["fluree"]);
-        }
+            : base(factory, config) { }
+
+        public FlureeMonitoringService(IFlurlClientFactory factory, string baseUrl)
+            : base(factory, baseUrl) { }
         /// <summary>
         /// Get the network status of the entire deployed fluree network
         /// </summary>
         /// <returns>A JSON object of the statistics of the entire fluree network currently being run</returns>
-        public async Task<dynamic> GetFlureeNetworkStatus()
+        public async Task<dynamic> GetNetworkStatus()
         {
             return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson();
         }
@@ -43,7 +43,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         /// See if the server deployed to the network
         /// </summary>
         /// <returns>Returns a status of the created network</returns>
-        public async Task<dynamic> GetServerHasDeployedToNetwork()
+        public async Task<dynamic> HasServerDeployedToNetwork()
         {
             return await _flurlClient.Request($"/fdb/health").PostAsync().ReceiveJson();
         }

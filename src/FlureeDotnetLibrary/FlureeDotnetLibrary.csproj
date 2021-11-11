@@ -13,7 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FlureeMonitoring\MonitoringModels\" />
+    <Compile Remove="FlureeMonitoring\MonitoringModels\**" />
+    <EmbeddedResource Remove="FlureeMonitoring\MonitoringModels\**" />
+    <None Remove="FlureeMonitoring\MonitoringModels\**" />
   </ItemGroup>
 
   <ItemGroup>

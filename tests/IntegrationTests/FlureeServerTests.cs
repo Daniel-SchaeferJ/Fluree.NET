@@ -4,6 +4,7 @@ using Xunit;
 using System.Net;
 using System.Net.Http;
 using FlureeDotnetLibrary.FlureeServer;
+using Flurl.Http.Configuration;
 
 namespace IntegrationTests
 {
@@ -12,9 +13,11 @@ namespace IntegrationTests
     {
 
         private readonly IFlureeServerService _flureeServerService;
-        public FlureeServerTests(IFlureeServerService flureeServerService)
+        public FlureeServerTests()
         {
-            _flureeServerService = flureeServerService;
+            _flureeServerService = new FlureeServerService(
+                new PerBaseUrlFlurlClientFactory(),
+                "http://localhost:8090");
         }
 
 
@@ -24,7 +27,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeServerService.CreateFlureeServer("test");
+            var result = await _flureeServerService.Create("test");
 
             //Assert
             Assert.True(result is not null); 
@@ -36,7 +39,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeServerService.DeleteFlureeServer("test");
+            var result = await _flureeServerService.Delete("test");
 
             //Assert
             Assert.True(result is not null);
