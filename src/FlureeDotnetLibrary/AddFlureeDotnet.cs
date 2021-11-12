@@ -14,13 +14,8 @@ namespace FlureeDotnetLibrary
     {
         public static void AddFlureeDotnetService(this IServiceCollection services)
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
-              .Build();
-            services.AddSingleton(configuration);
             services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
-            services.AddTransient<IExecuteFlureeQuery, FLureeQueryService>();
+            services.AddTransient<IFlureeQueryService, FlureeQueryService>();
             services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>();
             services.AddTransient<IFlureeServerService, FlureeServerService>();
             services.AddTransient<IFlureeCommandService, FlureeCommandService>();

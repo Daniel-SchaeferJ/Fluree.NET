@@ -9,17 +9,17 @@ namespace FlureeDotnetLibrary.FlureeCommand
 {
     public interface IFlureeCommandService
     {
-        public Task<string> CreateFlureeCollectionCommand(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
-        public Task<string> CreateFlureePredicateCommand(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
-        public Task<dynamic> InsertDataIntoFluree(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands); 
+        public Task<string> CreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
+        public Task<string> CreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
+        public Task<dynamic> Insert(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands); 
     }
-    public class FlureeCommandService : IFlureeCommandService
+    public class FlureeCommandService :BaseService, IFlureeCommandService
     {
-        private readonly IFlurlClient _flurlClient;
         public FlureeCommandService(IFlurlClientFactory factory, IConfiguration config)
-        {
-            _flurlClient = factory.Get(config["fluree"]);
-        }
+            : base(factory, config) { }
+
+        public FlureeCommandService(IFlurlClientFactory factory, string baseUrl)
+            : base(factory, baseUrl) { }
         /// <summary>
         /// Adds a collection(in relational database terms a table) to a given ledger
         /// </summary>
@@ -40,7 +40,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// -11,true,null],[-11,108,"{\"_collection\":[17592186044440,17592186044440]}",-11,true,null]]}
         /// </returns> 
         #endregion
-        public async Task<string> CreateFlureeCollectionCommand(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
+        public async Task<string> CreateCollection(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
         {
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureeCollectionBody>()
             {
@@ -75,7 +75,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// "{\"_predicate\":[1001,1001]}",-13,true,null]]}
         /// </returns> 
         #endregion
-        public async Task<string> CreateFlureePredicateCommand(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
+        public async Task<string> CreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
         {
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
             {
@@ -96,7 +96,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <param name="ledgerName">The ledger you want to add the collection to</param>
         /// <param name="transactionCommands">A list of all data that you wish to put into your data node</param>
         /// <returns>Returns a json object that shows how long the operation took, what block it was in, and other informational data</returns>
-        public async Task<dynamic> InsertDataIntoFluree(string networkName, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands)
+        public async Task<dynamic> Insert(string networkName, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands)
         {
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(transactionCommands).ReceiveJson();
         }

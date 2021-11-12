@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace FlureeDotnetLibrary.FlureeQuery
 {
-    public interface IExecuteFlureeQuery
+    public interface IFlureeQueryService
     {
-        public Task<IList<dynamic>> ExectureSingleFlureeQuery(string networkName, string ledgerName, QueryBuilder queryBuilder); 
+        public Task<IList<dynamic>> ExecuteSingleQuery(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder); 
     }
-    public class FLureeQueryService : IExecuteFlureeQuery
+    public class FlureeQueryService : BaseService, IFlureeQueryService
     {
-        private readonly IFlurlClient _flurlClient;
-        public FLureeQueryService(IFlurlClientFactory factory, IConfiguration config)
-        {
-            _flurlClient = factory.Get(config["fluree"]);
-        }
+        public FlureeQueryService(IFlurlClientFactory factory, IConfiguration config)
+            : base(factory, config) { }
+
+        public FlureeQueryService(IFlurlClientFactory factory, string baseUrl)
+            : base(factory, baseUrl) { }
 
         //TODO When the user uses the select one statement, this query erros out as it returns a list and not a Json Object. 
         //Will investigate in the future.
@@ -30,7 +30,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
         /// <param name="ledgerName">The ledger where the desired data lives under</param>
         /// <param name="queryBuilder">The query to be executed baed on what the user entered.</param>
         /// <returns>A list, single object, or nothing based on the query results.</returns>
-        public async Task<IList<dynamic>> ExectureSingleFlureeQuery(string networkName, string ledgerName, QueryBuilder queryBuilder)
+        public async Task<IList<dynamic>> ExecuteSingleQuery(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder)
         {
 
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJsonList();

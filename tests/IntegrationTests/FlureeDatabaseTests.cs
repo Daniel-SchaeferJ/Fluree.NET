@@ -1,4 +1,5 @@
 ﻿using FlureeDotnetLibrary.FlureeDatabase;
+using Flurl.Http.Configuration;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -8,9 +9,11 @@ namespace IntegrationTests
     public class FlureeDatabaseTests
     {
         private readonly IFlureeDatabaseService _flureeDatabaseService;
-        public FlureeDatabaseTests(IFlureeDatabaseService flureeDatabaseService)
+        public FlureeDatabaseTests()
         {
-            _flureeDatabaseService = flureeDatabaseService;
+            _flureeDatabaseService = new FlureeDatabaseService(
+                new PerBaseUrlFlurlClientFactory(),
+                "http://localhost:8090");
         }
 
 
@@ -20,7 +23,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.GetAllLedgers();
+            var result = await _flureeDatabaseService.GetAll();
 
             //Assert
             Assert.True(result is not null);
@@ -33,7 +36,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.CreateANewLedgerDatabase("test", "ledger1");
+            var result = await _flureeDatabaseService.Create("test", "ledger1");
 
             //Assert
             Assert.True(result is not null);
@@ -45,7 +48,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.DeleteLedgerDatabase("test", "ledger1");
+            var result = await _flureeDatabaseService.Delete("test", "ledger1");
 
             //Assert
             Assert.True(result is not null);
