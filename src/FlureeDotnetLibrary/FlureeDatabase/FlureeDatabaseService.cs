@@ -2,6 +2,7 @@
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,22 +10,22 @@ namespace FlureeDotnetLibrary.FlureeDatabase
 {
     public interface IFlureeDatabaseService
     {
-        public Task<string> GetAllLedgers();
-        public Task<string> CreateANewLedgerDatabase(string networkName, string databaseName);
-        public Task<dynamic> DeleteLedgerDatabase(string networkName, string databaseName);
+        public Task<string> GetAll();
+        public Task<string> Create(string networkName, string databaseName);
+        public Task<dynamic> Delete(string networkName, string databaseName);
     }
-    public class FlureeDatabaseService : IFlureeDatabaseService
+    public class FlureeDatabaseService : BaseService, IFlureeDatabaseService
     {
-        private readonly IFlurlClient _flurlClient;
         public FlureeDatabaseService(IFlurlClientFactory factory, IConfiguration config)
-        {
-            _flurlClient = factory.Get(config["fluree"]);
-        }
+            : base(factory, config) { }
+
+        public FlureeDatabaseService(IFlurlClientFactory factory, string baseUrl)
+            : base(factory, baseUrl) { }
         /// <summary>
         /// Returns a list of all ledgers in the transactor group.
         /// </summary>
         /// <returns>A dynamic json representation of all ledgers</returns>
-        public async Task<string> GetAllLedgers()
+        public async Task<string> GetAll()
         {
             return await _flurlClient.Request("/fdb/dbs").PostAsync().ReceiveString();
         }
@@ -34,7 +35,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <param name="networkName">The network name to put the ledger in</param>
         /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
-        public async Task<string> CreateANewLedgerDatabase(string networkName, string ledgerName)
+        public async Task<string> Create(string networkName, string ledgerName)
         {
             return await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseModel
             {
@@ -51,7 +52,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <param name="networkName">The network name to put the ledger in</param>
         /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>If deletion was successful it will return the {networkId}/{ledger that was deleted} as a json object</returns>
-        public async Task<dynamic> DeleteLedgerDatabase(string networkName, string ledgerName)
+        public async Task<dynamic> Delete(string networkName, string ledgerName)
         {
             return await _flurlClient.Request("/fdb/delete-db").PostJsonAsync(new FlureeDatabaseModel
             {

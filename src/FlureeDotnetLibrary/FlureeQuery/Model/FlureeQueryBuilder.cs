@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlureeDotnetLibrary.FlureeQuery.Model
 {
-    public abstract class QueryBuilder
+    public class FlureeQueryBuilder
     {
         /// <summary>
         /// selectOne is the same as select, 
