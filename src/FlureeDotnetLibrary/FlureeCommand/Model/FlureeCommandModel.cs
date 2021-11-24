@@ -96,7 +96,7 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
         ///  	i.e. ["_user/username", "jdoe"], or a temporary id (for new entities). See the Temporary Ids section in the below Transactions section to learn more.
         /// </summary>
         [JsonProperty("_id")]
-        public string? CollectionId { get; set; }
+        public string? ParentId { get; set; }
         
         /// <summary>
         ///  	Optional (if it can be inferred). One of: add, update, upsert or delete. When using a temporary id, 

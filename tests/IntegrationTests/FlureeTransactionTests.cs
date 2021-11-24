@@ -57,12 +57,12 @@ namespace IntegrationTests
             {
                 new AddTransactionData
                 {
-                    CollectionId = "collection1",
+                    ParentId = "collection1",
                     Quantity = 15,
                 },
                 new AddTransactionData
                 {
-                    CollectionId = "collection1",
+                    ParentId = "collection1",
                     Quantity = 15,
                 }
             };
