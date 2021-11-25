@@ -10,7 +10,11 @@ namespace FlureeDotnetLibrary.FlureeQuery
 {
     public interface IFlureeQueryService
     {
+<<<<<<< Updated upstream
         public Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder);
+=======
+        public Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder); 
+>>>>>>> Stashed changes
     }
     public class FlureeQueryService : BaseService, IFlureeQueryService
     {
@@ -31,7 +35,12 @@ namespace FlureeDotnetLibrary.FlureeQuery
         public async Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder)
         {
 
+<<<<<<< Updated upstream
             return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJson<IList<T>>();
+=======
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJson<List<T>>();
+
+>>>>>>> Stashed changes
         }
     }
 }
