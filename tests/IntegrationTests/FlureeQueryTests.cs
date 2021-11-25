@@ -1,6 +1,7 @@
 ﻿using FlureeDotnetLibrary.FlureeQuery;
 using FlureeDotnetLibrary.FlureeQuery.Model;
 using Flurl.Http.Configuration;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,13 +29,21 @@ namespace IntegrationTests
                         {
                             "*"
                         },
-                SqlFrom = "TopSellingProduct"
+                SqlFrom = "collection1"
             };
             //Act
-            var result = await _flureeQueryService.ExecuteSingleQuery("test", "ledger1", query);
+            var result = await _flureeQueryService.ExecuteSingleQuery<QueryObject>("test", "ledger1", query);
 
             //Assert
-            Assert.True(result is not null); 
+            Assert.True(result is not null);
+
+        }
+        private class QueryObject
+        {
+            [JsonProperty("collection1/quantity")]
+            int quantity { get; set; }
         }
     }
+
+
 }
