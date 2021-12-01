@@ -10,7 +10,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
 {
     public interface IFlureeQueryService
     {
-        public Task<IList<dynamic>> ExecuteSingleQuery(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder); 
+        public Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder);
     }
     public class FlureeQueryService : BaseService, IFlureeQueryService
     {
@@ -20,8 +20,6 @@ namespace FlureeDotnetLibrary.FlureeQuery
         public FlureeQueryService(IFlurlClientFactory factory, string baseUrl)
             : base(factory, baseUrl) { }
 
-        //TODO When the user uses the select one statement, this query erros out as it returns a list and not a Json Object. 
-        //Will investigate in the future.
         /// <summary>
         /// This will query the fluree node much like how normal SQL works. Its returns a JSON list or individual object desired by user 
         /// based on the query
@@ -30,11 +28,9 @@ namespace FlureeDotnetLibrary.FlureeQuery
         /// <param name="ledgerName">The ledger where the desired data lives under</param>
         /// <param name="queryBuilder">The query to be executed baed on what the user entered.</param>
         /// <returns>A list, single object, or nothing based on the query results.</returns>
-        public async Task<IList<dynamic>> ExecuteSingleQuery(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder)
+        public async Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder)
         {
-
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJsonList();
-
+            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJson<IList<T>>();
         }
     }
 }
