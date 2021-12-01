@@ -9,7 +9,9 @@ namespace FlureeDotnetLibrary.FlureeCommand
 {
     public interface IFlureeCommandService
     {
+        public Task TryCreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
         public Task<string> CreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
+        public Task TryCreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
         public Task<string> CreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
         public Task<dynamic> Insert(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands); 
     }
@@ -20,6 +22,20 @@ namespace FlureeDotnetLibrary.FlureeCommand
 
         public FlureeCommandService(IFlurlClientFactory factory, string baseUrl)
             : base(factory, baseUrl) { }
+
+        /// <summary>
+        /// Tries to adds a collection(in relational database terms a table) to a given ledger
+        /// If collection already exists, nothing will happen.
+        /// </summary>
+        /// <param name="networkName">The network that contains the ledger you want to add to</param>
+        /// <param name="ledgerName">The ledger you want to add the collection to</param>
+        /// <param name="collectionName">The name of the collection to add</param>
+        /// <param name="collectionDescription">Description of the collection you are adding</param>
+        /// <param name="verion">Version is like migration in Ids. If this is the first time creating the collection, version is 1</param>
+        public async Task TryCreateCollection(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
+        {
+            try { await CreateCollection(networkName, ledgerName, collectionName, collectionDescription, verion); } catch { }
+        }
         /// <summary>
         /// Adds a collection(in relational database terms a table) to a given ledger
         /// </summary>
@@ -52,6 +68,21 @@ namespace FlureeDotnetLibrary.FlureeCommand
                 }
 
             }).ReceiveString();
+        }
+        /// <summary>
+        /// Adds a predicate(in relational database terms a column) to a given predicate
+        /// If predicate already exists, nothing will happen.
+        /// </summary>
+        /// <param name="networkName">The network that contains the ledger you want to add to</param>
+        /// <param name="ledgerName">The ledger you want to add the predicate to</param>
+        /// <param name="collectionName">The collection name you want to add the predicate to</param>
+        /// <param name="predicateName">The name of the predicate you are adding</param>
+        /// <param name="predicateDescription">Description of the predicate you are adding</param>
+        /// <param name="datatype">The type you want the predicate to be like integer, string etc . Allowed 
+        /// types are here https://docs.flur.ee/docs/schema/predicates</param>
+        public async Task TryCreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
+        {
+            try { await CreatePredicate(networkName, ledgerName, collectionName, predicateName, predicateDescription, datatype); } catch { }
         }
         /// <summary>
         /// Adds a predicate(in relational database terms a column) to a given collection
