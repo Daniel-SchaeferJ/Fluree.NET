@@ -11,6 +11,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
     public interface IFlureeDatabaseService
     {
         public Task<string> GetAll();
+        public Task TryCreate(string networkName, string databaseName);
         public Task<string> Create(string networkName, string databaseName);
         public Task<dynamic> Delete(string networkName, string databaseName);
     }
@@ -21,6 +22,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
 
         public FlureeDatabaseService(IFlurlClientFactory factory, string baseUrl)
             : base(factory, baseUrl) { }
+
         /// <summary>
         /// Returns a list of all ledgers in the transactor group.
         /// </summary>
@@ -29,6 +31,19 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         {
             return await _flurlClient.Request("/fdb/dbs").PostAsync().ReceiveString();
         }
+
+        /// <summary>
+        /// Creats a new ledger. It can be put under an exsisting network, or if the network does not exsist, a new one is created.
+        /// If ledger already exists, nothing will happen.
+        /// </summary>
+        /// <param name="networkName">The network name to put the ledger in</param>
+        /// <param name="ledgerName">The new ledger to be created</param>
+        /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
+        public async Task TryCreate(string networkName, string ledgerName)
+        {
+            try { Create(networkName, ledgerName); } catch { }
+        }
+
         /// <summary>
         /// Creats a new ledger. It can be put under an exsisting network, or if the network does not exsist, a new one is created.
         /// </summary>
