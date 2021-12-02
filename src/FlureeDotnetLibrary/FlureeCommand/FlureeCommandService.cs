@@ -9,13 +9,13 @@ namespace FlureeDotnetLibrary.FlureeCommand
 {
     public interface IFlureeCommandService
     {
-        public Task TryCreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
+        public Task<bool> TryCreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
         public Task<string> CreateCollection(string networkId, string ledgerName, string collectionName, string collectionDescription, string verion = "1");
-        public Task TryCreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
+        public Task<bool> TryCreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
         public Task<string> CreatePredicate(string networkId, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string");
-        public Task<dynamic> Insert(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands); 
+        public Task<dynamic> Insert(string networkId, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands);
     }
-    public class FlureeCommandService :BaseService, IFlureeCommandService
+    public class FlureeCommandService : BaseService, IFlureeCommandService
     {
         public FlureeCommandService(IFlurlClientFactory factory, IConfiguration config)
             : base(factory, config) { }
@@ -32,9 +32,25 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <param name="collectionName">The name of the collection to add</param>
         /// <param name="collectionDescription">Description of the collection you are adding</param>
         /// <param name="verion">Version is like migration in Ids. If this is the first time creating the collection, version is 1</param>
-        public async Task TryCreateCollection(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
+        public async Task<bool> TryCreateCollection(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
         {
-            try { await CreateCollection(networkName, ledgerName, collectionName, collectionDescription, verion); } catch { }
+            try
+            {
+                await CreateCollection(networkName, ledgerName, collectionName, collectionDescription, verion);
+                return true;
+            }
+            catch (FlurlHttpException ex)
+            {
+                if (ex.StatusCode is 400)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
         }
         /// <summary>
         /// Adds a collection(in relational database terms a table) to a given ledger
@@ -80,9 +96,24 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <param name="predicateDescription">Description of the predicate you are adding</param>
         /// <param name="datatype">The type you want the predicate to be like integer, string etc . Allowed 
         /// types are here https://docs.flur.ee/docs/schema/predicates</param>
-        public async Task TryCreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
+        public async Task<bool> TryCreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
         {
-            try { await CreatePredicate(networkName, ledgerName, collectionName, predicateName, predicateDescription, datatype); } catch { }
+            try 
+            { 
+                await CreatePredicate(networkName, ledgerName, collectionName, predicateName, predicateDescription, datatype); 
+                return true;
+            }
+            catch (FlurlHttpException ex)
+            {
+                if (ex.StatusCode is 400)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
         /// <summary>
         /// Adds a predicate(in relational database terms a column) to a given collection

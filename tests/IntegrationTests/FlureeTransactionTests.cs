@@ -38,6 +38,17 @@ namespace IntegrationTests
             Assert.True(result is not null);
         }
         [Fact]
+        public async Task CanTryCreateLedgerCollection()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
+
+            //Assert
+            Assert.True(result is true or false);
+        }
+        [Fact]
         public async Task CanCreateCollectionPredicate()
         {
             //Arrange
@@ -47,6 +58,18 @@ namespace IntegrationTests
 
             //Assert
             Assert.True(result is not null);
+        }
+
+        [Fact]
+        public async Task CanTryCreateCollectionPredicate()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+
+            //Assert
+            Assert.True(result is true or false);
         }
 
         [Fact]

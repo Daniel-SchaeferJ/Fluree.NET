@@ -11,7 +11,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
     public interface IFlureeDatabaseService
     {
         public Task<string> GetAll();
-        public Task TryCreate(string networkName, string databaseName);
+        public Task<bool> TryCreate(string networkName, string databaseName);
         public Task<string> Create(string networkName, string databaseName);
         public Task<dynamic> Delete(string networkName, string databaseName);
     }
@@ -39,9 +39,24 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <param name="networkName">The network name to put the ledger in</param>
         /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
-        public async Task TryCreate(string networkName, string ledgerName)
+        public async Task<bool> TryCreate(string networkName, string ledgerName)
         {
-            try { Create(networkName, ledgerName); } catch { }
+            try 
+            { 
+                await Create(networkName, ledgerName);
+                return true;
+            }
+            catch (FlurlHttpException ex)
+            {
+                if (ex.StatusCode is 400)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>

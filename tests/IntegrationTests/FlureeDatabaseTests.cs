@@ -43,6 +43,18 @@ namespace IntegrationTests
         }
 
         [Fact]
+        public async Task CanTryCreateANewDatabase()
+        {
+            //Arrange
+
+            //Act
+            var result = await _flureeDatabaseService.TryCreate("test", "ledger1");
+
+            //Assert
+            Assert.True(result is true or false);
+        }
+
+        [Fact]
         public async Task CanDeleteADatabase()
         {
             //Arrange
