@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using FlureeDotnetLibrary.FlureeMonitoring.Models;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -10,7 +11,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
 {
     public interface IFlureeMonitoringService
     {
-        public Task<dynamic> GetNetworkStatus();
+        public Task<FlureeNetworkResponse> GetNetworkStatus();
         public Task<dynamic> HasServerDeployedToNetwork();
         public Task<dynamic> GetLedgerInformation(string networkName, string ledgerName);
     }
@@ -25,9 +26,9 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         /// Get the network status of the entire deployed fluree network
         /// </summary>
         /// <returns>A JSON object of the statistics of the entire fluree network currently being run</returns>
-        public async Task<dynamic> GetNetworkStatus()
+        public async Task<FlureeNetworkResponse> GetNetworkStatus()
         {
-            return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson();
+            return await _flurlClient.Request($"/fdb/nw-state").PostAsync().ReceiveJson<FlureeNetworkResponse>();
         }
         /// <summary>
         /// Gets ledger information based upon the desired ledger
