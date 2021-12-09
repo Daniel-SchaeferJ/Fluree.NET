@@ -12,7 +12,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
     public interface IFlureeMonitoringService
     {
         public Task<FlureeNetworkResponse> GetNetworkStatus();
-        public Task<dynamic> HasServerDeployedToNetwork();
+        public Task<ServerHealthResponse> HasServerDeployedToNetwork();
         public Task<dynamic> GetLedgerInformation(string networkName, string ledgerName);
     }
     public class FlureeMonitoringService : BaseService, IFlureeMonitoringService
@@ -44,9 +44,9 @@ namespace FlureeDotnetLibrary.FlureeMonitoring
         /// See if the server deployed to the network
         /// </summary>
         /// <returns>Returns a status of the created network</returns>
-        public async Task<dynamic> HasServerDeployedToNetwork()
+        public async Task<ServerHealthResponse> HasServerDeployedToNetwork()
         {
-            return await _flurlClient.Request($"/fdb/health").PostAsync().ReceiveJson();
+            return await _flurlClient.Request($"/fdb/health").PostAsync().ReceiveJson<ServerHealthResponse>();
         }
     }
 }
