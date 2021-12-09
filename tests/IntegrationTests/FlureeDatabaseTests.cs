@@ -48,10 +48,13 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.TryCreate("test", "ledger1");
+            var resultTrue = await _flureeDatabaseService.TryCreate("test", "ledger1");
+            var resultFalse = await _flureeDatabaseService.TryCreate("test", "ledger1");
+
 
             //Assert
-            Assert.True(result is true or false);
+            Assert.True(resultTrue is true);
+            Assert.True(resultFalse is false);
         }
 
         [Fact]
