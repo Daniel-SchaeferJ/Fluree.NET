@@ -8,7 +8,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase.Model
         /// Network and ledger identification property.
         /// Should be formatted as {networkId/ledgerId}
         /// </summary>
-            [JsonProperty("db/id")]
-            public string? NetworkAndDatabase { get; set; }
+        [JsonProperty("db/id")]
+        public string? NetworkAndDatabase { get; set; }
     }
 }

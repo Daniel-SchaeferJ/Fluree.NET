@@ -1,8 +1,8 @@
-﻿using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
-using FlureeDotnetLibrary.FlureeIdentity.Models;
-using System.Threading.Tasks;
+﻿using FlureeDotnetLibrary.FlureeIdentity.Models;
 using Flurl.Http;
+using Flurl.Http.Configuration;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace FlureeDotnetLibrary.FlureeIdentity
 {
