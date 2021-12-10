@@ -4,13 +4,11 @@ using FlureeDotnetLibrary.FlureeMonitoring;
 using FlureeDotnetLibrary.FlureeQuery;
 using FlureeDotnetLibrary.FlureeServer;
 using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace FlureeDotnetLibrary
 {
-    public static  class AddFlureeDotnet
+    public static class AddFlureeDotnet
     {
         public static void AddFlureeDotnetService(this IServiceCollection services)
         {
@@ -19,7 +17,7 @@ namespace FlureeDotnetLibrary
             services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>();
             services.AddTransient<IFlureeServerService, FlureeServerService>();
             services.AddTransient<IFlureeCommandService, FlureeCommandService>();
-            services.AddTransient<IFlureeMonitoringService, FlureeMonitoringService>(); 
+            services.AddTransient<IFlureeMonitoringService, FlureeMonitoringService>();
         }
     }
 }

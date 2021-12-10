@@ -283,7 +283,7 @@ namespace FlureeDotnetLibrary.FlureeMonitoring.Models
 
         public override void WriteJson(JsonWriter writer, object? untypedValue, JsonSerializer serializer)
         {
-            if(untypedValue is null)
+            if (untypedValue is null)
             {
                 throw new Exception("Cannot marshal type Vote");
             }

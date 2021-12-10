@@ -80,19 +80,16 @@ namespace IntegrationTests
         public async Task CanAddSampleData()
         {
             //Arrange
-            var transactionCommandList = new List<FlureeTransactionDataParentBody>()
+            var transactionCommandList = new List<FlureeTransactionDataParentBody>();
+
+            for(int i = 0; i < 10000; i++)
             {
-                new AddTransactionData
+                transactionCommandList.Add(new AddTransactionData
                 {
                     ParentId = "collection1",
-                    Quantity = 15,
-                },
-                new AddTransactionData
-                {
-                    ParentId = "collection1",
-                    Quantity = 15,
-                }
-            };
+                    Quantity = i,
+                });
+            }
             
             //Act
             var result = await _flureeCommandService.Insert("test", "ledger1", transactionCommandList); 
