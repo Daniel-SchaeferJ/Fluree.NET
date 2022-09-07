@@ -43,10 +43,12 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
+            var resultTrue = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
+            var resultFalse = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
 
             //Assert
-            Assert.True(result is true or false);
+            Assert.True(resultTrue is true);
+            Assert.True(resultFalse is false);
         }
         [Fact]
         public async Task CanCreateCollectionPredicate()
@@ -66,29 +68,28 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+            var resultTrue = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+            var resultFalse = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
 
             //Assert
-            Assert.True(result is true or false);
+            Assert.True(resultTrue is true);
+            Assert.True(resultFalse is false);
         }
 
         [Fact]
         public async Task CanAddSampleData()
         {
             //Arrange
-            var transactionCommandList = new List<FlureeTransactionDataParentBody>()
+            var transactionCommandList = new List<FlureeTransactionDataParentBody>();
+
+            for(int i = 0; i < 10000; i++)
             {
-                new AddTransactionData
+                transactionCommandList.Add(new AddTransactionData
                 {
                     ParentId = "collection1",
-                    Quantity = 15,
-                },
-                new AddTransactionData
-                {
-                    ParentId = "collection1",
-                    Quantity = 15,
-                }
-            };
+                    Quantity = i,
+                });
+            }
             
             //Act
             var result = await _flureeCommandService.Insert("test", "ledger1", transactionCommandList); 

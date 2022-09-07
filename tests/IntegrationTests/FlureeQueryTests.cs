@@ -32,16 +32,16 @@ namespace IntegrationTests
                 SqlFrom = "collection1"
             };
             //Act
-            var result = await _flureeQueryService.ExecuteSingleQuery<QueryObject>("test", "ledger1", query);
+            var result = await _flureeQueryService.ExecuteSingleQuery<QueryObjectResponse>("test", "ledger1", query);
 
             //Assert
-            Assert.True(result is not null);
+            Assert.True(result.Count >= 10000);
 
         }
-        private class QueryObject
+        private class QueryObjectResponse
         {
             [JsonProperty("collection1/quantity")]
-            int quantity { get; set; }
+            public int quantity { get; set; }
         }
     }
 

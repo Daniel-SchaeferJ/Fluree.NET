@@ -1,9 +1,9 @@
-﻿using Flurl.Http;
+﻿using FlureeDotnetLibrary.FlureeCommand.Model;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlureeDotnetLibrary.FlureeCommand.Model;
 
 namespace FlureeDotnetLibrary.FlureeCommand
 {
@@ -98,9 +98,9 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// types are here https://docs.flur.ee/docs/schema/predicates</param>
         public async Task<bool> TryCreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
         {
-            try 
-            { 
-                await CreatePredicate(networkName, ledgerName, collectionName, predicateName, predicateDescription, datatype); 
+            try
+            {
+                await CreatePredicate(networkName, ledgerName, collectionName, predicateName, predicateDescription, datatype);
                 return true;
             }
             catch (FlurlHttpException ex)

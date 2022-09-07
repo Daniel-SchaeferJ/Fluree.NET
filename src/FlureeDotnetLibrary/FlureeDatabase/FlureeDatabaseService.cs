@@ -2,8 +2,6 @@
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FlureeDotnetLibrary.FlureeDatabase
@@ -41,8 +39,8 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
         public async Task<bool> TryCreate(string networkName, string ledgerName)
         {
-            try 
-            { 
+            try
+            {
                 await Create(networkName, ledgerName);
                 return true;
             }

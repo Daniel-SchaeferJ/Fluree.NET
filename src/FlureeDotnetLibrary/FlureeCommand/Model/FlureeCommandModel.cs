@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FlureeDotnetLibrary.FlureeCommand.Model
 {
@@ -11,16 +9,16 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
         {
             [JsonProperty("_id")]
             public string? CollectionId = "_collection";
-           
+
             /// <summary>
             ///  	(optional) Optional docstring describing this collection.
             /// </summary>
             [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
             public string? CollectionName { get; set; }
-            
+
             [JsonProperty("doc", NullValueHandling = NullValueHandling.Ignore)]
             public string? CollectionDescription { get; set; }
-            
+
             /// <summary>
             ///  	(optional) A multi-cardinality list of reference to the _fn collection. 
             ///  	These specs restricts what is allowed in this collection. To see how to write a function, see the function section.
@@ -97,14 +95,14 @@ namespace FlureeDotnetLibrary.FlureeCommand.Model
         /// </summary>
         [JsonProperty("_id")]
         public string? ParentId { get; set; }
-        
+
         /// <summary>
         ///  	Optional (if it can be inferred). One of: add, update, upsert or delete. When using a temporary id, 
         ///  	add is always inferred. When using an existing subject id, update is always inferred. 
         ///  	upsert is inferred for new entities with a tempid if they include an predicate that was marked as upsert.
         /// </summary>
         [JsonProperty("_action", NullValueHandling = NullValueHandling.Ignore)]
-        public string? DesiredAction { get; set; } 
+        public string? DesiredAction { get; set; }
 
     }
 }
