@@ -1,14 +1,10 @@
 ﻿using FlureeDotnetLibrary.FlureeCommand;
 using FlureeDotnetLibrary.FlureeCommand.Model;
-using Flurl.Http;
 using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
-using static FlureeDotnetLibrary.FlureeCommand.Model.FlureeCommandModel;
 
 namespace IntegrationTests
 {
@@ -16,15 +12,13 @@ namespace IntegrationTests
     /// Transactions to NOT require a key to sign with, or we use the default fluree key
     /// </summary>
     [Trait("Category", "Transact")]
+    [Collection("MyCollection")]
+
     public class FlureeTransactionTests
     {
-        private readonly IFlureeCommandService _flureeCommandService;
-        public FlureeTransactionTests()
-        {
-            _flureeCommandService = new FlureeCommandService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeCommandService _flureeCommandService = new FlureeCommandService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
         [Fact]
         public async Task CanCreateLedgerCollection()

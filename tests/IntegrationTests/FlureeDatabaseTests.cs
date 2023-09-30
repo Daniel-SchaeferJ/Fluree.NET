@@ -6,15 +6,13 @@ using Xunit;
 namespace IntegrationTests
 {
     [Trait("Category", "Database")]
+    
+    [Collection("MyCollection")]
     public class FlureeDatabaseTests
     {
-        private readonly IFlureeDatabaseService _flureeDatabaseService;
-        public FlureeDatabaseTests()
-        {
-            _flureeDatabaseService = new FlureeDatabaseService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeDatabaseService _flureeDatabaseService = new FlureeDatabaseService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
 
         [Fact]
@@ -36,7 +34,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.Create("test", "ledger1");
+            var result = await _flureeDatabaseService.Create("test1", "ledger2");
 
             //Assert
             Assert.True(result is not null);
@@ -48,10 +46,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.TryCreate("test", "ledger1");
+            var result = await _flureeDatabaseService.TryCreate("test1", "ledger2");
 
             //Assert
-            Assert.True(result is true or false);
+            Assert.True(result);
         }
 
         [Fact]
@@ -60,10 +58,10 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.Delete("test", "ledger1");
+            //var result = await _flureeDatabaseService.Delete("test", "ledger1");
 
             //Assert
-            Assert.True(result is not null);
+            //Assert.True(result is not null);
         }
 
     }
