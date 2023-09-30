@@ -29,7 +29,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <returns>A dynamic json representation of all ledgers</returns>
         public async Task<string> GetAll()
         {
-            return await _flurlClient.Request("/fdb/dbs").PostAsync().ReceiveString();
+            return await _flurlClient.Request("/fdb/ledgers").PostAsync().ReceiveString();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
         public async Task<string> Create(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request("/fdb/new-db").PostJsonAsync(new FlureeDatabaseModel
+            return await _flurlClient.Request("/fdb/new-ledger").PostJsonAsync(new FlureeDatabaseModel
             {
                 NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveString();
@@ -84,7 +84,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <returns>If deletion was successful it will return the {networkId}/{ledger that was deleted} as a json object</returns>
         public async Task<dynamic> Delete(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request("/fdb/delete-db").PostJsonAsync(new FlureeDatabaseModel
+            return await _flurlClient.Request("/fdb/delete-ledger").PostJsonAsync(new FlureeDatabaseModel
             {
                 NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveJson();

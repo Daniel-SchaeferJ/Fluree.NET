@@ -8,13 +8,9 @@ namespace IntegrationTests
     [Trait("Category", "Monitoring")]
     public class FlureeMonitoringTests
     {
-        private readonly IFlureeMonitoringService _flureeMonitoringService;
-        public FlureeMonitoringTests()
-        {
-            _flureeMonitoringService = new FlureeMonitoringService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeMonitoringService _flureeMonitoringService = new FlureeMonitoringService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
         [Fact]
         public async Task CanQueryNetworkState()
