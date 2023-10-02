@@ -10,7 +10,7 @@ namespace IntegrationTests
     [Collection("MyCollection")]
     public class FlureeDatabaseTests
     {
-        private readonly IFlureeDatabaseService _flureeDatabaseService = new FlureeDatabaseService(
+        private readonly IFlureeLedgerService _flureeLedgerService = new FlureeLedgerService(
             new PerBaseUrlFlurlClientFactory(),
             "http://localhost:8090");
 
@@ -21,7 +21,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.GetAll();
+            var result = await _flureeLedgerService.GetAll();
 
             //Assert
             Assert.True(result is not null);
@@ -34,7 +34,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.Create("test1", "ledger2");
+            var result = await _flureeLedgerService.Create("test1", "ledger2");
 
             //Assert
             Assert.True(result is not null);
@@ -46,7 +46,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.TryCreate("test1", "ledger2");
+            var result = await _flureeLedgerService.TryCreate("test2", "ledger3");
 
             //Assert
             Assert.True(result);
@@ -56,11 +56,10 @@ namespace IntegrationTests
         public async Task CanDeleteADatabase()
         {
             //Arrange
-
+            await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
             //Act
-            //var result = await _flureeDatabaseService.Delete("test", "ledger1");
-
-            //Assert
+            var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
+            
             //Assert.True(result is not null);
         }
 
