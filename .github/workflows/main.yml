@@ -35,6 +35,7 @@ jobs:
         NUPKG_PATH=$(find . -type f -name '*.nupkg' | head -n 1)
         VERSION=$(dotnet nuget list $NUPKG_PATH --outdated --format d | sed 's/\r$//')
         echo "::set-output name=package-version::$VERSION"
+      shell: bash
     
     - name: Create GitHub Tag
       run: |
