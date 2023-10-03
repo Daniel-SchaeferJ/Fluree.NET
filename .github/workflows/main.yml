@@ -26,12 +26,15 @@ jobs:
     - name: Package
       run: dotnet pack -c Release -o . src/FlureeDotnetLibrary/FlureeDotnetLibrary.csproj
     
-    - name: Publish
+    - name: Publish to Nuget
       run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
-
+    
     - name: Extract NuGet Package Version
       id: extract-version
-      run: echo "::set-output name=package-version::$(dotnet nuget list source/FlureeDotnetLibrary.*.nupkg --include-prerelease --outdated | cut -d ' ' -f 2)"
+      run: |
+        NUPKG_PATH=$(find . -type f -name '*.nupkg' | head -n 1)
+        VERSION=$(dotnet nuget list $NUPKG_PATH --outdated --format d | sed 's/\r$//')
+        echo "::set-output name=package-version::$VERSION"
     
     - name: Create GitHub Tag
       run: |
