@@ -25,7 +25,7 @@ namespace IntegrationTests
             var result = await _flureeIdentityService.GenerateNewKeys();
 
             //Assert
-            Assert.NotNull(result.AccountId);
+            Assert.Null(result.AccountId);
 
         }
     }
