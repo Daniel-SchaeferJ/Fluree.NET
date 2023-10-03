@@ -34,10 +34,10 @@ jobs:
       run: |
         NUPKG_FILE=$(find . -type f -name '*.nupkg' | head -n 1)
         VERSION=$(echo $NUPKG_FILE | sed -n 's/.*\.\([0-9]*\.[0-9]*\.[0-9]*\)\.nupkg/\1/p')
-        echo "::set-output name=package-version::$VERSION"
+        echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
     
     - name: Create GitHub Tag
       run: |
-        TAG_NAME=${{ steps.extract-version.outputs.package-version }}
+        TAG_NAME=${{ env.PACKAGE_VERSION }}
         git tag $TAG_NAME
         git push origin $TAG_NAME
