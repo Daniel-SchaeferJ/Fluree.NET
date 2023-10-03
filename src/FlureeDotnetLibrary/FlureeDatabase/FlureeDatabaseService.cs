@@ -12,7 +12,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         public Task<string?> GetAll();
         public Task<bool> TryCreate(string networkName, string databaseName, bool waitForCreationBeforeReturning = true);
         public Task<string> Create(string networkName, string databaseName, bool waitForCreationBeforeReturning = true);
-        public Task<dynamic> Delete(string networkName, string databaseName);
+        public Task<object> Delete(string networkName, string databaseName);
         public Task<object> LedgerStats(string networkName, string ledgerName);
     }
     public class FlureeLedgerService : BaseService, IFlureeLedgerService
@@ -26,10 +26,10 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <summary>
         /// Returns a list of all ledgers in the transactor group.
         /// </summary>
-        /// <returns>A dynamic json representation of all ledgers</returns>
+        /// <returns>A object json representation of all ledgers</returns>
         public async Task<string?> GetAll()
         {
-            return await _flurlClient.Request("/fdb/ledgers").PostAsync().ReceiveString();
+            return await FlurlClient.Request("/fdb/ledgers").PostAsync().ReceiveString();
         }
 
         /// <summary>
@@ -48,14 +48,8 @@ namespace FlureeDotnetLibrary.FlureeDatabase
             }
             catch (FlurlHttpException ex)
             {
-                if (ex.StatusCode is 400)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                await ex.Message.GetJsonAsync();
+                return ex.StatusCode is 400;
             }
         }
 
@@ -68,14 +62,14 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <returns>A random string character that confirms the database was created, like 16a358f77s24daf92ad59da</returns>
         public async Task<string> Create(string networkName, string ledgerName, bool waitForCreationBeforeReturning = true)
         {
-            string ledgerResult = await _flurlClient.Request("/fdb/new-ledger").PostJsonAsync(new FlureeDatabaseModel
+            string ledgerResult = await FlurlClient.Request("/fdb/new-ledger").PostJsonAsync(new FlureeDatabaseModel
             {
                 NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveString();
 
             if (!waitForCreationBeforeReturning) return ledgerResult;
 
-            dynamic ledgers = null;
+            object ledgers = null;
             await PollyPolicy.GetPollyPolicy().ExecuteAsync(async () =>
             {
                 ledgers = await LedgerStats(networkName, ledgerName);
@@ -94,9 +88,9 @@ namespace FlureeDotnetLibrary.FlureeDatabase
         /// <param name="networkName">The network name to put the ledger in</param>
         /// <param name="ledgerName">The new ledger to be created</param>
         /// <returns>If deletion was successful it will return the {networkId}/{ledger that was deleted} as a json object</returns>
-        public async Task<dynamic> Delete(string networkName, string ledgerName)
+        public async Task<object> Delete(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request("/fdb/delete-ledger").PostJsonAsync(new FlureeDatabaseModel
+            return await FlurlClient.Request("/fdb/delete-ledger").PostJsonAsync(new FlureeDatabaseModel
             {
                 NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveJson();
@@ -104,7 +98,7 @@ namespace FlureeDotnetLibrary.FlureeDatabase
 
         public async Task<object> LedgerStats(string networkName, string ledgerName)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/ledger-stats").PostJsonAsync(new FlureeDatabaseModel
+            return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/ledger-stats").PostJsonAsync(new FlureeDatabaseModel
             {
                 NetworkAndDatabase = $"{networkName}/{ledgerName}"
             }).ReceiveJson();

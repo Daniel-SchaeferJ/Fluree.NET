@@ -74,7 +74,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         #endregion
         public async Task<string> CreateCollection(string networkName, string ledgerName, string collectionName, string collectionDescription, string verion = "1")
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureeCollectionBody>()
+            return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureeCollectionBody>()
             {
                 new FlureeCommandModel.FlureeCollectionBody
                 {
@@ -139,7 +139,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         #endregion
         public async Task<string> CreatePredicate(string networkName, string ledgerName, string collectionName, string predicateName, string predicateDescription, string datatype = "string")
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
+            return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(new List<FlureeCommandModel.FlureePredicateBody>()
             {
                 new FlureeCommandModel.FlureePredicateBody
                 {
@@ -160,7 +160,7 @@ namespace FlureeDotnetLibrary.FlureeCommand
         /// <returns>Returns a json object that shows how long the operation took, what block it was in, and other informational data</returns>
         public async Task<dynamic> Insert(string networkName, string ledgerName, List<FlureeTransactionDataParentBody> transactionCommands)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(transactionCommands).ReceiveJson();
+            return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/transact").PostJsonAsync(transactionCommands).ReceiveJson();
         }
     }
 

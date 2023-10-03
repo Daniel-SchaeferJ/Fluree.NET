@@ -20,7 +20,7 @@ namespace FlureeDotnetLibrary.FlureeIdentity
 
         public async Task<AuthenticationModel> GenerateNewKeys()
         {
-            return await _flurlClient.Request("/fdb/new-keys").PostAsync().ReceiveJson<AuthenticationModel>();
+            return await FlurlClient.Request("/fdb/new-keys").PostAsync().ReceiveJson<AuthenticationModel>();
         }
     }
 }
