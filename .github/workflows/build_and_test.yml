@@ -6,31 +6,33 @@ name: build and test
 on:
   push:
     branches:
-      - '*'
+      - '**'
   pull_request:
     branches:
-      - '*'
+      - '**'
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+    - uses: actions/checkout@v3
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.x
 
     - name: Install dependencies
-      run: dotnet restore
-      
+      run: dotnet restore src/FlureeDotnetLibrary/
+
+    - name: List Directory Contents
+      run: ls -la
+      working-directory: src/
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
-      working-directory: src/FlureeDotnetLibrary/
+      working-directory: src/
     
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-      working-directory: src/FlureeDotnetLibrary/
+      working-directory: src/
