@@ -17,20 +17,18 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.x
 
 
     - name: Build
-      run: |
-        dotnet restore
-        dotnet build --configuration Release
+      run: dotnet build --configuration Release --no-restore
       working-directory: src/FlureeDotnetLibrary/
     
     - name: Test
-      run: dotnet test
+      run: dotnet test --no-restore --verbosity normal
       working-directory: src/FlureeDotnetLibrary/
