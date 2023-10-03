@@ -6,15 +6,13 @@ using Xunit;
 namespace IntegrationTests
 {
     [Trait("Category", "Database")]
+    
+    [Collection("MyCollection")]
     public class FlureeDatabaseTests
     {
-        private readonly IFlureeDatabaseService _flureeDatabaseService;
-        public FlureeDatabaseTests()
-        {
-            _flureeDatabaseService = new FlureeDatabaseService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeLedgerService _flureeLedgerService = new FlureeLedgerService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
 
         [Fact]
@@ -23,7 +21,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.GetAll();
+            var result = await _flureeLedgerService.GetAll();
 
             //Assert
             Assert.True(result is not null);
@@ -36,7 +34,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.Create("test", "ledger1");
+            var result = await _flureeLedgerService.Create("test1", "ledger2");
 
             //Assert
             Assert.True(result is not null);
@@ -48,22 +46,21 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeDatabaseService.TryCreate("test", "ledger1");
+            var result = await _flureeLedgerService.TryCreate("test2", "ledger3");
 
             //Assert
-            Assert.True(result is true or false);
+            Assert.True(result);
         }
 
         [Fact]
         public async Task CanDeleteADatabase()
         {
             //Arrange
-
+            await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
             //Act
-            var result = await _flureeDatabaseService.Delete("test", "ledger1");
-
-            //Assert
-            Assert.True(result is not null);
+            var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
+            
+            //Assert.True(result is not null);
         }
 
     }

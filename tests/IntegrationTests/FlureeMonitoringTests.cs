@@ -6,6 +6,7 @@ using Xunit;
 namespace IntegrationTests
 {
     [Trait("Category", "Monitoring")]
+    [Collection("MyCollection")]
     public class FlureeMonitoringTests
     {
         private readonly IFlureeMonitoringService _flureeMonitoringService = new FlureeMonitoringService(

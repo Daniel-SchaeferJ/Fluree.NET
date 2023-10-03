@@ -1,14 +1,10 @@
 ﻿using FlureeDotnetLibrary.FlureeCommand;
 using FlureeDotnetLibrary.FlureeCommand.Model;
-using Flurl.Http;
 using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
-using static FlureeDotnetLibrary.FlureeCommand.Model.FlureeCommandModel;
 
 namespace IntegrationTests
 {
@@ -16,15 +12,13 @@ namespace IntegrationTests
     /// Transactions to NOT require a key to sign with, or we use the default fluree key
     /// </summary>
     [Trait("Category", "Transact")]
+    [Collection("MyCollection")]
+
     public class FlureeTransactionTests
     {
-        private readonly IFlureeCommandService _flureeCommandService;
-        public FlureeTransactionTests()
-        {
-            _flureeCommandService = new FlureeCommandService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeCommandService _flureeCommandService = new FlureeCommandService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
         [Fact]
         public async Task CanCreateLedgerCollection()
@@ -32,7 +26,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
+            var result = await _flureeCommandService.CreateCollection("test", "ledger1", "collection2", "A test collection to add to FLuree");
 
             //Assert
             Assert.True(result is not null);
@@ -43,7 +37,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection1", "A test collection to add to FLuree");
+            var result = await _flureeCommandService.TryCreateCollection("test", "ledger1", "collection3", "A test collection to add to FLuree");
 
             //Assert
             Assert.True(result is true or false);
@@ -54,7 +48,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.CreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+            var result = await _flureeCommandService.CreatePredicate("test", "ledger1", "collection2", "quantity", "A test predicate to add to Fluree", "int");
 
             //Assert
             Assert.True(result is not null);
@@ -66,7 +60,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection1", "quantity", "A test predicate to add to Fluree", "int");
+            var result = await _flureeCommandService.TryCreatePredicate("test", "ledger1", "collection3", "quantity", "A test predicate to add to Fluree", "int");
 
             //Assert
             Assert.True(result is true or false);

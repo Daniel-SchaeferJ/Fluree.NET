@@ -14,7 +14,7 @@ namespace FlureeDotnetLibrary
         {
             services.AddSingleton<IFlurlClientFactory, PerBaseUrlFlurlClientFactory>();
             services.AddTransient<IFlureeQueryService, FlureeQueryService>();
-            services.AddTransient<IFlureeDatabaseService, FlureeDatabaseService>();
+            services.AddTransient<IFlureeLedgerService, FlureeLedgerService>();
             services.AddTransient<IFlureeCommandService, FlureeCommandService>();
             services.AddTransient<IFlureeMonitoringService, FlureeMonitoringService>(); 
         }

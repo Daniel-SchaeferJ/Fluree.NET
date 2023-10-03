@@ -9,15 +9,13 @@ using Xunit;
 namespace IntegrationTests
 {
     [Trait("Category", "Query")]
+    [Collection("MyCollection")]
+
     public class FlureeQueryTests
     {
-        private readonly IFlureeQueryService _flureeQueryService;
-        public FlureeQueryTests()
-        {
-            _flureeQueryService = new FlureeQueryService(
-                new PerBaseUrlFlurlClientFactory(),
-                "http://localhost:8090");
-        }
+        private readonly IFlureeQueryService _flureeQueryService = new FlureeQueryService(
+            new PerBaseUrlFlurlClientFactory(),
+            "http://localhost:8090");
 
         [Fact]
         public async Task CanQueryData()

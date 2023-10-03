@@ -30,7 +30,7 @@ namespace FlureeDotnetLibrary.FlureeQuery
         /// <returns>A list, single object, or nothing based on the query results.</returns>
         public async Task<IList<T>> ExecuteSingleQuery<T>(string networkName, string ledgerName, FlureeQueryBuilder queryBuilder)
         {
-            return await _flurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJson<IList<T>>();
+            return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/query").PostJsonAsync(queryBuilder).ReceiveJson<IList<T>>();
         }
     }
 }
