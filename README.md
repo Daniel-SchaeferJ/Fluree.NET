@@ -1,5 +1,3 @@
-Certainly! Here's a sample README for your Fluree.NET repository:
-
 ---
 
 # Fluree.NET
@@ -65,4 +63,4 @@ Contributions to Fluree.NET are welcome! If you find any issues or have ideas fo
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
