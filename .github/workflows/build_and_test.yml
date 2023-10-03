@@ -29,8 +29,8 @@ jobs:
       run: |
         dotnet restore
         dotnet build --configuration Release
-      working-directory: src/FlureeDotnetLibrary/FlureeDotnetLibrary.csproj
+      working-directory: src/FlureeDotnetLibrary/
     
     - name: Test
       run: dotnet test --configuration Release --no-build
-      working-directory: src/FlureeDotnetLibrary/FlureeDotnetLibrary.csproj
+      working-directory: src/FlureeDotnetLibrary/
