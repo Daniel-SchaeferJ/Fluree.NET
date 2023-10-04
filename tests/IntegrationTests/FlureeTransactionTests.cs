@@ -83,14 +83,14 @@ namespace IntegrationTests
                     Quantity = 15,
                 }
             };
-            
+
             //Act
-            var result = await _flureeCommandService.Insert("test", "ledger1", transactionCommandList); 
+            var result = await _flureeCommandService.Insert("test", "ledger1", transactionCommandList);
 
             //Assert
             Assert.True(result is not null);
         }
-        public  class AddTransactionData : FlureeTransactionDataParentBody
+        public class AddTransactionData : FlureeTransactionDataParentBody
         {
             [JsonProperty("quantity")]
             public int? Quantity { get; set; }

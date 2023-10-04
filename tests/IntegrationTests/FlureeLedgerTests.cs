@@ -6,7 +6,7 @@ using Xunit;
 namespace IntegrationTests
 {
     [Trait("Category", "Ledger")]
-    
+
     [Collection("MyCollection")]
     public class FlureeLedgerTests
     {
@@ -59,18 +59,18 @@ namespace IntegrationTests
             await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
             //Act
             var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
-            
+
             Assert.True(result is not null);
         }
-        
+
         [Fact]
         public async Task CanGetLedgerStatistics()
         {
             //Arrange
-            
+
             //Act
             var result = await _flureeLedgerService.LedgerStats("test", "ledger1");
-            
+
             Assert.True(result is not null);
         }
 

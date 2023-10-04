@@ -19,7 +19,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeMonitoringService.GetNetworkStatus(); 
+            var result = await _flureeMonitoringService.GetNetworkStatus();
 
             //Assert
             Assert.True(result is not null);
@@ -43,7 +43,7 @@ namespace IntegrationTests
             //Arrange
 
             //Act
-            var result = await _flureeMonitoringService.GetLedgerInformation("test", "ledger1"); 
+            var result = await _flureeMonitoringService.GetLedgerInformation("test", "ledger1");
 
             //Assert
             Assert.True(result is not null);

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Trait("Category","Authentication")]
+    [Trait("Category", "Authentication")]
     [Collection("MyCollection")]
     public class FlureeIdentityTests
     {

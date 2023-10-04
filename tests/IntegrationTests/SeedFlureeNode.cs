@@ -13,7 +13,7 @@ public static class SeedFlureeNode
         IFlureeLedgerService flureeLedgerService = new FlureeLedgerService(
             new PerBaseUrlFlurlClientFactory(),
             "http://localhost:8090");
-        
+
         IFlureeCommandService _flureeCommandService = new FlureeCommandService(
         new PerBaseUrlFlurlClientFactory(),
         "http://localhost:8090");
