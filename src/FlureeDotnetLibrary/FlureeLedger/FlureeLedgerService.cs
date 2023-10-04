@@ -14,6 +14,8 @@ public interface IFlureeLedgerService
     public Task<string> Create(string networkName, string ledgerName, bool waitForCreationBeforeReturning = true);
     public Task<object> Delete(string networkName, string ledgerName);
     public Task<object> LedgerStats(string networkName, string ledgerName);
+    public Task<object> ReindexLedger(string networkName, string ledgerName);
+    public Task<object> ReindexLedgerFullText(string networkName, string ledgerName);
 }
 
 public class FlureeLedgerService : BaseService, IFlureeLedgerService
@@ -109,6 +111,65 @@ public class FlureeLedgerService : BaseService, IFlureeLedgerService
     public async Task<object> LedgerStats(string networkName, string ledgerName)
     {
         return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/ledger-stats").PostJsonAsync(
+            new FlureeLedgerModel
+            {
+                NetworkAndLedger = $"{networkName}/{ledgerName}"
+            }).ReceiveJson();
+    }
+
+    /// <summary>
+    ///     Reindexes the specified ledger.
+    /// </summary>
+    /// <param name="networkName">The network name to put the ledger in</param>
+    /// <param name="ledgerName">The new ledger to be created</param>
+    /// <returns>This request may take some time to return. It will return a map, such as the following:</returns>
+
+    #region ExampleReindexReturnObject
+
+    // {
+    //     "block": 13,
+    //     "t": -27,
+    //     "stats": {
+    //         "flakes": 899990,
+    //         "size": 41435614,
+    //         "indexed": 13
+    //     }
+    // }
+
+    #endregion
+
+    public async Task<object> ReindexLedger(string networkName, string ledgerName)
+    {
+        return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/reindex").PostJsonAsync(new FlureeLedgerModel
+        {
+            NetworkAndLedger = $"{networkName}/{ledgerName}"
+        }).ReceiveJson();
+    }
+
+    /// <summary>
+    ///     Reindexes the specified ledger.
+    /// </summary>
+    /// <param name="networkName">The network name to put the ledger in</param>
+    /// <param name="ledgerName">The new ledger to be created</param>
+    /// <returns>This request may take some time to return. It will return a map, such as the following:</returns>
+
+    #region ExampleReindexReturnObject
+
+    // {
+    //     "block": 13,
+    //     "t": -27,
+    //     "stats": {
+    //         "flakes": 899990,
+    //         "size": 41435614,
+    //         "indexed": 13
+    //     }
+    // }
+
+    #endregion
+
+    public async Task<object> ReindexLedgerFullText(string networkName, string ledgerName)
+    {
+        return await FlurlClient.Request($"/fdb/{networkName}/{ledgerName}/reindex-fulltext").PostJsonAsync(
             new FlureeLedgerModel
             {
                 NetworkAndLedger = $"{networkName}/{ledgerName}"

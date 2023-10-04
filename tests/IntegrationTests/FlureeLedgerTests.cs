@@ -1,78 +1,97 @@
-﻿using Flurl.Http.Configuration;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FlureeDotnetLibrary.FlureeLedger;
+using Flurl.Http.Configuration;
 using Xunit;
 
-namespace IntegrationTests
+namespace IntegrationTests;
+
+[Trait("Category", "Ledger")]
+[Collection("MyCollection")]
+public class FlureeLedgerTests
 {
-    [Trait("Category", "Ledger")]
+    private readonly IFlureeLedgerService _flureeLedgerService = new FlureeLedgerService(
+        new PerBaseUrlFlurlClientFactory(),
+        "http://localhost:8090");
 
-    [Collection("MyCollection")]
-    public class FlureeLedgerTests
+
+    [Fact]
+    public async Task GetAllLedgerFromFlureeTest()
     {
-        private readonly IFlureeLedgerService _flureeLedgerService = new FlureeLedgerService(
-            new PerBaseUrlFlurlClientFactory(),
-            "http://localhost:8090");
+        //Arrange
+
+        //Act
+        var result = await _flureeLedgerService.GetAll();
+
+        //Assert
+        Assert.True(result is not null);
+    }
 
 
-        [Fact]
-        public async Task GetAllLedgerFromFlureeTest()
-        {
-            //Arrange
+    [Fact]
+    public async Task CanCreateANewLedger()
+    {
+        //Arrange
 
-            //Act
-            var result = await _flureeLedgerService.GetAll();
+        //Act
+        var result = await _flureeLedgerService.Create("test1", "ledger2");
 
-            //Assert
-            Assert.True(result is not null);
-        }
+        //Assert
+        Assert.True(result is not null);
+    }
 
+    [Fact]
+    public async Task CanTryCreateANewLedger()
+    {
+        //Arrange
 
-        [Fact]
-        public async Task CanCreateANewLedger()
-        {
-            //Arrange
+        //Act
+        var result = await _flureeLedgerService.TryCreate("test2", "ledger3");
 
-            //Act
-            var result = await _flureeLedgerService.Create("test1", "ledger2");
+        //Assert
+        Assert.True(result);
+    }
 
-            //Assert
-            Assert.True(result is not null);
-        }
+    [Fact]
+    public async Task CanDeleteALedger()
+    {
+        //Arrange
+        await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
+        //Act
+        var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
 
-        [Fact]
-        public async Task CanTryCreateANewLedger()
-        {
-            //Arrange
+        Assert.True(result is not null);
+    }
 
-            //Act
-            var result = await _flureeLedgerService.TryCreate("test2", "ledger3");
+    [Fact]
+    public async Task CanGetLedgerStatistics()
+    {
+        //Arrange
 
-            //Assert
-            Assert.True(result);
-        }
+        //Act
+        var result = await _flureeLedgerService.LedgerStats("test", "ledger1");
 
-        [Fact]
-        public async Task CanDeleteALedger()
-        {
-            //Arrange
-            await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
-            //Act
-            var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
+        Assert.True(result is not null);
+    }
 
-            Assert.True(result is not null);
-        }
+    [Fact]
+    public async Task CanReindexLedger()
+    {
+        //Arrange
 
-        [Fact]
-        public async Task CanGetLedgerStatistics()
-        {
-            //Arrange
+        //Act
+        var result = await _flureeLedgerService.ReindexLedger("test1", "ledger2");
 
-            //Act
-            var result = await _flureeLedgerService.LedgerStats("test", "ledger1");
+        Assert.True(result is not null);
+    }
 
-            Assert.True(result is not null);
-        }
+    [Fact]
+    public async Task CanReindexFullTextLedger()
+    {
+        //Arrange
 
+        //Act
+        var result = await _flureeLedgerService.ReindexLedgerFullText("test1", "ledger2");
+
+        Assert.True(result is not null);
     }
 }

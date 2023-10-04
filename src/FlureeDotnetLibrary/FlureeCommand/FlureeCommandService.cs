@@ -177,7 +177,7 @@ public class FlureeCommandService : BaseService, IFlureeCommandService
     }
 
     /// <summary>
-    ///     INsert formatted data into you fluree node based of the collection and predicates you made
+    ///     Insert formatted data into you fluree node based of the collection and predicates you made
     /// </summary>
     /// <typeparam name="T">The object in which the collection/predicate is based off of</typeparam>
     /// <param name="networkName">The network that contains the ledger you want to add to</param>

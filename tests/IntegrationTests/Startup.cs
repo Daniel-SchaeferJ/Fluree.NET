@@ -1,9 +1,5 @@
-﻿using FlureeDotnetLibrary;
-using Microsoft.Extensions.DependencyInjection;
+﻿namespace IntegrationTests;
 
-namespace IntegrationTests
+public class Startup
 {
-    public class Startup
-    {
-    }
 }

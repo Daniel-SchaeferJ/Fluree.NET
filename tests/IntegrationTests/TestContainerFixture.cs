@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
-
 using Xunit;
 
 namespace IntegrationTests;
 
 public class TestContainerFixture : IAsyncLifetime
 {
-    private IContainer _container = new ContainerBuilder()
+    private readonly IContainer _container = new ContainerBuilder()
         .WithHostname("localhost")
         .WithImage("fluree/ledger:latest")
         .WithPortBinding(8090, 8090)
