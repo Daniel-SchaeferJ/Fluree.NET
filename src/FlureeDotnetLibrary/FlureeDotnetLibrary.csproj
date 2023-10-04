@@ -1,33 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-	  <PackageId>Fluree.Net</PackageId>
-	  <Version>0.1.8</Version>
-	  <Authors>Daniel</Authors>
-	  <PackageDescription>An API wrapper to communicate with Fluree</PackageDescription>
-	  <PackageProjectUrl>https://github.com/Daniel-SchaeferJ/Fluree.NET</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/Daniel-SchaeferJ/Fluree.NET</RepositoryUrl>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>latestmajor</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <PackageId>Fluree.Net</PackageId>
+        <Version>0.1.8</Version>
+        <Authors>Daniel</Authors>
+        <PackageDescription>An API wrapper to communicate with Fluree</PackageDescription>
+        <PackageProjectUrl>https://github.com/Daniel-SchaeferJ/Fluree.NET</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Daniel-SchaeferJ/Fluree.NET</RepositoryUrl>
+        <Nullable>enable</Nullable>
+        <LangVersion>latestmajor</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="3.2.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Polly" Version="8.0.0" />
-    <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Flurl.Http" Version="3.2.4"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0">
+            <TreatAsUsed>true</TreatAsUsed>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Polly" Version="8.0.0"/>
+        <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

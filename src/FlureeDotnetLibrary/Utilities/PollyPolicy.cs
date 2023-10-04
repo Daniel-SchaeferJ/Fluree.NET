@@ -15,6 +15,6 @@ public static class PollyPolicy
             .Handle<HttpRequestException>()
             .Or<FlurlHttpException>()
             .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 3),
-                (exception, span) => {});
+                (exception, span) => { });
     }
 }

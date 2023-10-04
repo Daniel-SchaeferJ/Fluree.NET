@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FlureeDotnetLibrary.FlureeCommand;
-using FlureeDotnetLibrary.FlureeDatabase;
+using FlureeDotnetLibrary.FlureeLedger;
 using Flurl.Http.Configuration;
 
 namespace IntegrationTests;

@@ -1,14 +1,14 @@
-﻿using FlureeDotnetLibrary.FlureeDatabase;
-using Flurl.Http.Configuration;
+﻿using Flurl.Http.Configuration;
 using System.Threading.Tasks;
+using FlureeDotnetLibrary.FlureeLedger;
 using Xunit;
 
 namespace IntegrationTests
 {
-    [Trait("Category", "Database")]
+    [Trait("Category", "Ledger")]
     
     [Collection("MyCollection")]
-    public class FlureeDatabaseTests
+    public class FlureeLedgerTests
     {
         private readonly IFlureeLedgerService _flureeLedgerService = new FlureeLedgerService(
             new PerBaseUrlFlurlClientFactory(),
@@ -16,7 +16,7 @@ namespace IntegrationTests
 
 
         [Fact]
-        public async Task GetAllDataBasesFromFlureeTest()
+        public async Task GetAllLedgerFromFlureeTest()
         {
             //Arrange
 
@@ -29,7 +29,7 @@ namespace IntegrationTests
 
 
         [Fact]
-        public async Task CanCreateANewDatabase()
+        public async Task CanCreateANewLedger()
         {
             //Arrange
 
@@ -41,7 +41,7 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task CanTryCreateANewDatabase()
+        public async Task CanTryCreateANewLedger()
         {
             //Arrange
 
@@ -53,14 +53,25 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task CanDeleteADatabase()
+        public async Task CanDeleteALedger()
         {
             //Arrange
             await _flureeLedgerService.TryCreate("dbtodelete", "dbtodelete1");
             //Act
             var result = await _flureeLedgerService.Delete("dbtodelete", "dbtodelete1");
             
-            //Assert.True(result is not null);
+            Assert.True(result is not null);
+        }
+        
+        [Fact]
+        public async Task CanGetLedgerStatistics()
+        {
+            //Arrange
+            
+            //Act
+            var result = await _flureeLedgerService.LedgerStats("test", "ledger1");
+            
+            Assert.True(result is not null);
         }
 
     }
