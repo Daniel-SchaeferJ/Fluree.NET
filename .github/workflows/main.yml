@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main # Default release branch
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,6 +29,9 @@ jobs:
     
     - name: Publish to Nuget
       run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+    
+    - name: Publish to GitHub Package Registry
+      run: dotnet nuget push *.nupkg --source https://nuget.pkg.github.com/Daniel-SchaeferJ/index.json -k ${{ secrets.NUGET_GITHUB_REPOSITORY_TOKEN }} --skip-duplicate
     
     - name: Extract NuGet Package Version
       id: extract-version
