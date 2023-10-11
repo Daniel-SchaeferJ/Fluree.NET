@@ -42,7 +42,7 @@ public class FlureeTransactionTests
             "A test collection to add to FLuree");
 
         //Assert
-        Assert.True(result is true or false);
+        Assert.True(result);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class FlureeTransactionTests
             "A test predicate to add to Fluree", "int");
 
         //Assert
-        Assert.True(result is true or false);
+        Assert.True(result);
     }
 
     [Fact]
